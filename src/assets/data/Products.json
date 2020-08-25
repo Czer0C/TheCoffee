@@ -1,0 +1,44 @@
+[
+  {
+    "ID": "0",
+    "Name": "Cà Phê",
+    "Price": "15000",
+    "Type": "0",
+    "Image": "cafe-den.jpg"
+  },
+  {
+    "ID": "1",
+    "Name": "Cappuccino",
+    "Price": "55000",
+    "Type": "0",
+    "Image": "cappuchino.jpg"
+  },
+  {
+    "ID": "2",
+    "Name": "Bạc Sỉu",
+    "Price": "20000",
+    "Type": "0",
+    "Image": "bac-siu.jpg"
+  }, 
+  {
+    "ID": "3",
+    "Name": "Trà Sữa Hong-Kong",
+    "Price": "45000",
+    "Type": "1",
+    "Image": "tra-sua-hong-kong.jpg"
+  },
+  {
+    "ID": "4",
+    "Name": "Trà Sữa Socola",
+    "Price": "45000",
+    "Type": "1",
+    "Image": "tra-sua-socola.jpg"
+  },
+  {
+    "ID": "5",
+    "Name": "Trà Sữa Trân Châu Vị Dâu",
+    "Price": "20000",
+    "Type": "1",
+    "Image": "tra-sua-dau.jpg"
+  }
+]
