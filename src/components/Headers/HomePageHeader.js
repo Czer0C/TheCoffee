@@ -28,15 +28,15 @@ function ProfilePageHeader() {
     
       <div
         className="page-header clear-filter page-header-small"
+        style={{minHeight:"420px"}}
       >
         <div
           className="page-header-image"
           style={{
-            backgroundImage: "url(" + require("assets/img/header-coffee.jpg") + ")",
+            backgroundImage: "url(" + require("assets/img/header-coffee.jpg") + ")"
           }}
           ref={pageHeader}
         >
-
         </div>
       </div>
     </>

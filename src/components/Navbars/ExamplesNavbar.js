@@ -20,7 +20,8 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText,
-  Alert
+  Alert,
+  UncontrolledAlert
 } from "reactstrap";
 
 function ExamplesNavbar(props) {
@@ -36,25 +37,31 @@ function ExamplesNavbar(props) {
   const closeModal = () => {
     setModalLive(false)
   }
-
+  //console.log(props.newItem);
   React.useEffect(() => {    
-    const updateNavbarColor = () => {
-      if (
-        document.documentElement.scrollTop > 399 ||
-        document.body.scrollTop > 399
-      ) {
-        setNavbarColor("");
-      } else if (
-        document.documentElement.scrollTop < 400 ||
-        document.body.scrollTop < 400
-      ) {
-        setNavbarColor("navbar-transparent");
-      }
-    };
-    window.addEventListener("scroll", updateNavbarColor);
-    return function cleanup() {
-      window.removeEventListener("scroll", updateNavbarColor);
-    };
+    if (props.isHomePage === true) {
+      const updateNavbarColor = () => {
+        if (
+          document.documentElement.scrollTop > 399 ||
+          document.body.scrollTop > 399
+        ) {
+          setNavbarColor("");
+        } else if (
+          document.documentElement.scrollTop < 400 ||
+          document.body.scrollTop < 400
+        ) {
+          setNavbarColor("navbar-transparent");
+        }
+      };
+      window.addEventListener("scroll", updateNavbarColor);
+      return function cleanup() {
+        window.removeEventListener("scroll", updateNavbarColor);
+      };
+    }
+    else {
+      setNavbarColor("");  
+    }
+    
   }, []);
 
   return (    
@@ -68,23 +75,31 @@ function ExamplesNavbar(props) {
           }}
         />
       ) : null}
-      <Navbar className={"fixed-top "} color="info" expand="lg">       
+      <Navbar className={"fixed-top " + navbarColor} color="primary" expand="lg">       
         <Container>
         
           <div className="navbar-translate">
           
             <Link
               className="navbar-brand"
-              to="/index"
+              to="/"
               id="navbar-brand"
+              style={{fontSize: "1.8em"}}
               onClick={e => {}}
             >
-              TheCoffee
+              {/* TheCoffee */}
+              <img 
+              width="141px"
+              height="35px"
+              style={{display:"block",
+                      margin:"auto"}} 
+              src={require(`assets/img/logo.png`)}>
+            </img>
             </Link>
             <UncontrolledTooltip target="#navbar-brand">
                   Về Trang Chủ
                 </UncontrolledTooltip>
-              
+            
             <button
               className="navbar-toggler navbar-toggler"
               onClick={() => {
@@ -94,16 +109,7 @@ function ExamplesNavbar(props) {
               aria-expanded={collapseOpen}
               type="button"
             >
-              {/* <span style={{
-                        color: "#2ca8ff", 
-                        background: "#FFFFFF",
-                        border: "2px solid #2ca8ff",
-                        borderRadius: "19px",
-                        display: "inline-block"
-                      }}
-                    >
-                      {cartSize}
-                    </span> */}
+            
               <span className="navbar-toggler-bar top-bar"></span>
               <span className="navbar-toggler-bar middle-bar"></span>
               <span className="navbar-toggler-bar bottom-bar"></span>
@@ -115,34 +121,28 @@ function ExamplesNavbar(props) {
             className="justify-content-end"
             isOpen={collapseOpen}
             navbar
-          >   
-          {/* <Alert color="success" isOpen={alert2}>
-          <Container>
-            <div className="alert-icon">
-              <i className="now-ui-icons travel_info"></i>
-            </div>
-            <strong>Thêm thành công!</strong>
-            <button
-              type="button"
-              className="close"
-              onClick={() => setAlert2(false)}
-            >
-              <span aria-hidden="true">
-                <i className="now-ui-icons ui-1_simple-remove"></i>
-              </span>
-            </button>
-          </Container>
-        </Alert>   */}
-            <Nav navbar >           
+          >  
+            <Nav navbar >  
+            
+            {/* {
+              props.newItem !== "" ? 
+              <UncontrolledAlert color="success">
+    <b>Đã thêm {props.newItem} vào giỏ hàng!</b>
+</UncontrolledAlert> : null
+            } */}
               <Form 
                 className="form-inline ml-auto" 
                 data-background-color=""
+                
+                action={`/search/${search}`}
                 onSubmit={
                   e => {
+                    if (!search)
                     e.preventDefault();
-                    props.onSearch(search);
-                  }
-                }>
+                    
+
+                  }}
+                  >
                 <FormGroup className="has-white">
                   <InputGroup>
                   <Input 
@@ -151,13 +151,19 @@ function ExamplesNavbar(props) {
                     type="text"
                     id="search"
                     list="searchList"
+                    required
                     onChange={e => setSearch(e.target.value)}
                   >
                       
                   </Input>
                   <InputGroupAddon addonType="append">
-                    <InputGroupText>
+                    <InputGroupText onClick={e => props.onSearch(search)}>
+                      <Link to={`/search/${search}`} id="search-button">
                       <i className="now-ui-icons ui-1_zoom-bold"></i>
+                      </Link>
+                      <UncontrolledTooltip target="#search-button">
+                  Tìm kiếm
+                </UncontrolledTooltip>
                     </InputGroupText>
                   </InputGroupAddon>
                   </InputGroup>
@@ -168,6 +174,7 @@ function ExamplesNavbar(props) {
                   <option>{s}</option>
                 ))}
               </datalist>
+              
               <NavItem>                          
                 <Link
                   to="/cart"
@@ -180,9 +187,9 @@ function ExamplesNavbar(props) {
                 >
                   <i className="fa fa-shopping-cart">
                     <span style={{
-                        color: "#2ca8ff", 
+                        color: "#f96332", 
                         background: "#FFFFFF",
-                        border: "2px solid #2ca8ff",
+                        border: "2px solid #f96332",
                         borderRadius: "19px",
                         display: "inline-block"
                       }}
@@ -197,7 +204,7 @@ function ExamplesNavbar(props) {
                   Giỏ hàng
                 </UncontrolledTooltip>
               </NavItem>
-              <NavItem>
+              {/* <NavItem>
                 <NavLink
                   id="profile-tooltip"
                   style={{
@@ -211,9 +218,12 @@ function ExamplesNavbar(props) {
                 <UncontrolledTooltip target="#profile-tooltip">
                   Tài khoản cá nhân
                 </UncontrolledTooltip>
-              </NavItem>
+              </NavItem> */}
             </Nav>
+          
+              
           </Collapse>
+          
         </Container>
       </Navbar>
     </>

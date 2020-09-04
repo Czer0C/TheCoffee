@@ -38,7 +38,7 @@ import DefaultFooter from "components/Footers/DefaultFooter.js";
 import ProductNavbar from 'components/Navbars/ProductNavbar';
 
 
-function HomePage(props) {
+function SearchPage(props) {
   const [pills, setPills] = useState(-1);
   const [currentSize, setCurrentSize] = useState("M");
   const [modalLive, setModalLive] = useState(false);  
@@ -62,10 +62,20 @@ function HomePage(props) {
   const setColMD = () => {
 
   }
-  
-  // const searchProduct = (dataFromSearchBar) => {
-  //   setCurrentList(products.filter(p => p.name.includes(dataFromSearchBar)));
-  // }
+  const searchProduct = (dataFromSearchBar) => {
+    setCurrentList(products.filter(p => p.name.includes(dataFromSearchBar)));
+  }
+  function utf8_from_str(s) {
+    for(var i=0, enc = encodeURIComponent(s), a = []; i < enc.length;) {
+        if(enc[i] === '%') {
+            a.push(parseInt(enc.substr(i+1, 2), 16))
+            i += 3
+        } else {
+            a.push(enc.charCodeAt(i++))
+        }
+    }
+    return a
+}
   useEffect(() => {
     document.body.classList.add("profile-page");
     document.body.classList.add("sidebar-collapse");
@@ -79,14 +89,19 @@ function HomePage(props) {
     else {
       localStorage.setItem("items", JSON.stringify([]));
     }
-
+    
     fetch(categoriesAPI)
       .then(response => response.json())
       .then(json => {setCategories(json);});
 
     fetch(productsAPI)
       .then(response => response.json())
-      .then(json => {setProducts(json); setCurrentList(json)});
+      .then(json => {
+        setProducts(json); 
+        let keyword = props.match.params.search;
+        setCurrentList(json.filter(p => p.name.toLowerCase().includes(keyword.toLowerCase())));
+        
+      });
 
     fetch(toppingsAPI)
       .then(response => response.json())
@@ -98,11 +113,11 @@ function HomePage(props) {
     };
 
   }, []);
-
   return (
     <>
     <ExamplesNavbar 
       items={items} 
+      onSearch={searchProduct} 
       isHomePage={true} 
       newItem={newItem}
     />    
@@ -521,4 +536,4 @@ function HomePage(props) {
   );
 }
 
-export default HomePage;
+export default SearchPage;

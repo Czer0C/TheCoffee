@@ -6,6 +6,16 @@ import { Container } from "reactstrap";
 
 // core components
 
+const st = {
+  display: "block",
+  position: "fixed",
+  left: "0",
+  bottom: "0",
+  width: "100%",
+  textAlign: "center",
+
+};
+
 function DefaultFooter() {
   return (
     <>
