@@ -39,7 +39,9 @@ function CheckoutPage() {
   const [deliveryInfo, setDeliveryInfo] = React.useState(JSON.parse(localStorage.getItem("deliveryInfo")));
   const [modalLive, setModalLive] = React.useState(false);
   const [status, setStatus] = React.useState(0); // 0: awaiting | 1: success | -1: failed
-  
+  const searchProduct = () => {
+
+  }
   const confirmModal = () => {
     
     localStorage.removeItem("items");
@@ -62,13 +64,14 @@ function CheckoutPage() {
     <>
       <ExamplesNavbar 
       items={items} 
+      onSearch={searchProduct}
       isHomePage={false} 
     /> 
       <div className="wrapper">
         <div className="section">
           <Container>
            {
-             items.length > 0 ? 
+             items && items.length > 0 ? 
              <Row>
                {
                  status === 0 ? 
@@ -261,11 +264,13 @@ function CheckoutPage() {
                    }
                  </CardBody>
                </Card> :
-               <div className="content">
-               <CardBody>                   
+               <div className="content text-center">
+               <CardBody style={{paddingBottom:"350px"}}>                   
                  <img
                    alt="..."
                    src={require(`assets/img/${status === 1 ? "success.png" : "failed.jpg"}`)}              
+                   height="300px"
+                   width="300px"
                    style={{padding: "20px"}}
                  />
                  

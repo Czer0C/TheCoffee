@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Component } from 'react';
 import {Link} from 'react-router-dom';
+
 // reactstrap components
 import {
   Button,
@@ -28,6 +29,7 @@ import {
   InputGroupAddon,
   InputGroupText,
   Alert,
+  UncontrolledAlert,
   CardColumns
 } from "reactstrap";
 
@@ -58,14 +60,17 @@ function HomePage(props) {
   const [totalPrice, setTotalPrice] = useState(0);
   const [note, setNote] = useState("");
   const [items, setItems] = React.useState(JSON.parse(localStorage.getItem("items")));
-  const [newItem, setNewItem] = useState("");
+  
+  const [addedItem, setAddedItem] = React.useState("");
+  const [alertLive, setAlertLive] = React.useState(false);
+
   const setColMD = () => {
 
   }
   
-  // const searchProduct = (dataFromSearchBar) => {
-  //   setCurrentList(products.filter(p => p.name.includes(dataFromSearchBar)));
-  // }
+  const searchProduct = (dataFromSearchBar) => {
+    setCurrentList(products.filter(p => p.name.includes(dataFromSearchBar)));
+  }
   useEffect(() => {
     document.body.classList.add("profile-page");
     document.body.classList.add("sidebar-collapse");
@@ -104,13 +109,38 @@ function HomePage(props) {
     <ExamplesNavbar 
       items={items} 
       isHomePage={true} 
-      newItem={newItem}
+      onSearch={searchProduct}
     />    
     
       <div className="wrapper">
+      
       <HomePageHeader />
-    
         <div className="section">
+                <Alert color="success" isOpen={alertLive} style={{
+                  position:"fixed",
+                  top: "0px",
+                  left: "0px",
+                  width: "100%",
+                  zIndex:"9999",
+                  borderRadius:"0px",
+                }}>
+          <div className="container text-center">
+            
+                    <strong>{addedItem}</strong> đã được thêm vào giỏ hàng!
+            <button
+              type="button"
+              className="close"
+              aria-label="Close"
+              onClick={()=>{
+                setAlertLive(false);
+              }}
+            >
+              <span aria-hidden="true">
+                <i className="now-ui-icons ui-1_simple-remove"></i>
+              </span>
+            </button>
+          </div>
+        </Alert>
           {
             categories.length > 0 ? 
             <Container>
@@ -500,8 +530,9 @@ function HomePage(props) {
               }
               let temp = [...JSON.parse(localStorage.getItem("items")), currentItem];
               localStorage.setItem("items", JSON.stringify(temp));
-              setNewItem(currentProduct.name);
+              setAddedItem(currentProduct.name);
               setItems(temp);
+              setAlertLive(true);
             }}
           >
             Đặt Mua

@@ -30,6 +30,7 @@ import {
   Label,
   Table,
   Row,
+  Alert,
   CardBody,
 } from "reactstrap";
 
@@ -45,6 +46,8 @@ function CartPage(props) {
   const [items, setItems] = React.useState(JSON.parse(localStorage.getItem("items")));
   const [currentItemIndex, setCurrentItemIndex] = React.useState(0);
   const [deliveryInfo, setDeliveryInfo] = React.useState(JSON.parse(localStorage.getItem("deliveryInfo")))
+  const [alertLive, setAlertLive] = React.useState(false);
+  const [removedItem, setRemovedItem] = React.useState("");
   const getTotalPrice = () => {
     if (!items) {
       return 0;
@@ -169,6 +172,7 @@ function CartPage(props) {
       setItems(temp);
       localStorage.setItem("items", JSON.stringify(temp));
       setTotalPrice(getTotalPrice);
+      setAlertLive(true);
     }
     else {
       
@@ -183,7 +187,31 @@ function CartPage(props) {
       <div className="wrapper">
       {/* <HomePageHeader/> */}
         <div className="section">
-        
+        <Alert color="warning" isOpen={alertLive} style={{
+                  position:"fixed",
+                  top: "0px",
+                  left: "0px",
+                  width: "100%",
+                  zIndex:"9999",
+                  borderRadius:"0px",
+                }}>
+          <div className="container text-center">
+            
+              Đã xóa {removedItem} khỏi giỏ hàng!
+            <button
+              type="button"
+              className="close"
+              aria-label="Close"
+              onClick={()=>{
+                setAlertLive(false);
+              }}
+            >
+              <span aria-hidden="true">
+                <i className="now-ui-icons ui-1_simple-remove"></i>
+              </span>
+            </button>
+          </div>
+        </Alert>
         <div>
             {/* <Link
               className="btn-neutral btn btn-info btn-sm pull-left" 
@@ -363,6 +391,7 @@ function CartPage(props) {
                               setCurrentItemIndex(index);
                               setModalLive(true);
                               setModalType(0);
+                              setRemovedItem(item.productDetail.name);
                             }}
                           
                           >

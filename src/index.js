@@ -17,6 +17,8 @@
 */
 import React from "react";
 import ReactDOM from "react-dom";
+
+
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 // styles for this kit
@@ -37,7 +39,7 @@ import CheckoutPage from "views/main/CheckoutPage";
 ReactDOM.render(  
   <BrowserRouter>
     <Switch>
-      <Switch>
+    <Switch>
         <Route 
           exact path="/" 
           render={(props) => <HomePage {...props} />} 
@@ -63,6 +65,7 @@ ReactDOM.render(
           render={(props) => <_404Page {...props} />}
         />
       </Switch>
+      
     </Switch>
   </BrowserRouter>,
   document.getElementById("root")

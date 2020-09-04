@@ -99,6 +99,7 @@ function SearchPage(props) {
       .then(json => {
         setProducts(json); 
         let keyword = props.match.params.search;
+        console.log(keyword);
         setCurrentList(json.filter(p => p.name.toLowerCase().includes(keyword.toLowerCase())));
         
       });

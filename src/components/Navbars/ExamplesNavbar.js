@@ -28,17 +28,15 @@ function ExamplesNavbar(props) {
   const [navbarColor, setNavbarColor] = React.useState("navbar-transparent");
   const [collapseOpen, setCollapseOpen] = React.useState(false);
   const [modalLive, setModalLive] = React.useState(false);  
-  
   const [search, setSearch] = React.useState("");
-
   const [searchList, setSearchList] = React.useState(["Trà Sữa", "Cà Phê", "Cap"]);
   const cartSize = props.items ? Object.keys(props.items).length : 0;
-  const [alert2, setAlert2] = React.useState(false);
+
+
   const closeModal = () => {
     setModalLive(false)
   }
-  //console.log(props.newItem);
-  React.useEffect(() => {    
+  React.useEffect(() => {   
     if (props.isHomePage === true) {
       const updateNavbarColor = () => {
         if (
@@ -64,6 +62,7 @@ function ExamplesNavbar(props) {
     
   }, []);
 
+  
   return (    
     <>
       {collapseOpen ? (
@@ -79,8 +78,7 @@ function ExamplesNavbar(props) {
         <Container>
         
           <div className="navbar-translate">
-          
-            <Link
+          <Link
               className="navbar-brand"
               to="/"
               id="navbar-brand"
@@ -99,7 +97,7 @@ function ExamplesNavbar(props) {
             <UncontrolledTooltip target="#navbar-brand">
                   Về Trang Chủ
                 </UncontrolledTooltip>
-            
+                
             <button
               className="navbar-toggler navbar-toggler"
               onClick={() => {
@@ -124,12 +122,6 @@ function ExamplesNavbar(props) {
           >  
             <Nav navbar >  
             
-            {/* {
-              props.newItem !== "" ? 
-              <UncontrolledAlert color="success">
-    <b>Đã thêm {props.newItem} vào giỏ hàng!</b>
-</UncontrolledAlert> : null
-            } */}
               <Form 
                 className="form-inline ml-auto" 
                 data-background-color=""
@@ -157,13 +149,14 @@ function ExamplesNavbar(props) {
                       
                   </Input>
                   <InputGroupAddon addonType="append">
-                    <InputGroupText onClick={e => props.onSearch(search)}>
-                      <Link to={`/search/${search}`} id="search-button">
-                      <i className="now-ui-icons ui-1_zoom-bold"></i>
+                    <InputGroupText onClick={e => {props.onSearch(search)}}>
+                        <Link to={`/search/${search}`} id="search-button" onClick={e=>{if (!search)e.preventDefault()}}>
+                            <i className="now-ui-icons ui-1_zoom-bold"></i>
+                                <UncontrolledTooltip target="#search-button">
+                          Tìm kiếm
+                        </UncontrolledTooltip>
                       </Link>
-                      <UncontrolledTooltip target="#search-button">
-                  Tìm kiếm
-                </UncontrolledTooltip>
+                      
                     </InputGroupText>
                   </InputGroupAddon>
                   </InputGroup>
@@ -187,8 +180,8 @@ function ExamplesNavbar(props) {
                 >
                   <i className="fa fa-shopping-cart">
                     <span style={{
-                        color: "#f96332", 
-                        background: "#FFFFFF",
+                        color: "#FFFFFF", 
+                        background: "#f96332",
                         border: "2px solid #f96332",
                         borderRadius: "19px",
                         display: "inline-block"
