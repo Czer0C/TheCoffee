@@ -43,9 +43,9 @@ function SearchPage(props) {
   const [currentSize, setCurrentSize] = useState("M");
   const [modalLive, setModalLive] = useState(false);  
 
-  const categoriesAPI = 'http://localhost:3001/category';
-  const productsAPI = 'http://localhost:3001/products';
-  const toppingsAPI = 'http://localhost:3001/topping';
+  const categoriesAPI = 'https://thecoffeebackend.herokuapp.com/category';
+  const productsAPI = 'https://thecoffeebackend.herokuapp.com/products';
+  const toppingsAPI = 'https://thecoffeebackend.herokuapp.com/topping';
 
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
