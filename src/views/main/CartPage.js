@@ -313,7 +313,7 @@ function CartPage(props) {
                                   
                                   onChange={e => {updateTopping(tindex, index, e)}}
                                 />
-                                {topping.value} + {topping.price.toLocaleString()}
+                                {topping.value} + {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(topping.price)}
                                 <span className="form-check-sign">
                                   <span className="check"></span>
                                 </span>
@@ -379,7 +379,8 @@ function CartPage(props) {
                           </Form>
                         </td>
                         <td style={{textAlign: "center"}}>
-                          {item.totalPrice}Đ
+                          
+                          {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.totalPrice)}
                           <button 
                           type="button" 
                           data-placement="right" 
@@ -415,7 +416,12 @@ function CartPage(props) {
                     </td>
                     <td></td>
                     <td style={{textAlign: "center", paddingTop:"20px", fontSize:"1.5em"}}>Tổng Tiền</td>
-                    <td style={{textAlign: "center", paddingTop:"20px", fontSize:"1.5em"}}>{totalPrice}Đ</td>
+                    <td style={{textAlign: "center", paddingTop:"20px", fontSize:"1.5em"}}>
+                      {/* {totalPrice}Đ */}
+                      <p className="price-info">
+                      {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice)}
+                      </p>
+                    </td>
                     
                     <td colspan="2">
                       <Link

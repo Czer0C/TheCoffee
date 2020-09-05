@@ -235,13 +235,13 @@ function DeliveryPage(props) {
                                 e.preventDefault();
                                 // updateItemSize(item, index, "M");
                             }}>
-                              M
+                              1
                             </DropdownItem>
                             <DropdownItem onClick={e => {
                                 e.preventDefault(); 
                                 // updateItemSize(item, index, "L");
                               }}>
-                              L + 5k
+                              2
                             </DropdownItem>
                           </DropdownMenu>
                         </UncontrolledDropdown>
@@ -253,29 +253,13 @@ function DeliveryPage(props) {
                    id="note"
                    placeholder="Ít đường, đá..."
                    type="textarea"
-                   required
                    value={note}
                    className={inputNote}
                    onChange={e => {setNote(e.target.value)}}
-                   onBlur={e=>{
-                    if (note !== "") {
-                      setInputNote("is-valid")
-                    }
-                    else {
-                      
-                      setInputNote("is-invalid")
-                    }
-                  }}
+                   
                  />
-                 <div class="invalid-feedback" id="note-invalid">
-                      Vui lòng nhập vào ghi chú
-                    </div>
                </FormGroup>            
               
-
-               
-                
-
                <Link
                className={`btn btn-round btn-lg btn-info pull-right`} 
                 to="/checkout"

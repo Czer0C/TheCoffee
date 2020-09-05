@@ -7,6 +7,7 @@ import {
   NavItem
 
 } from 'reactstrap';
+import './CheckoutNavbar.css';
 
 function CheckoutNavbar(props) {
   console.log(props.deliveryDone  )

@@ -38,7 +38,7 @@ import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import HomePageHeader from "components/Headers/HomePageHeader.js";
 import DefaultFooter from "components/Footers/DefaultFooter.js";
 import ProductNavbar from 'components/Navbars/ProductNavbar';
-
+import './HomePage.css';
 
 function HomePage(props) {
   const [pills, setPills] = useState(-1);
@@ -108,13 +108,13 @@ function HomePage(props) {
     <>
     <ExamplesNavbar 
       items={items} 
-      isHomePage={true} 
+      isHomePage={false} 
       onSearch={searchProduct}
     />    
     
       <div className="wrapper">
       
-      <HomePageHeader />
+      {/* <HomePageHeader /> */}
         <div className="section">
                 <Alert color="success" isOpen={alertLive} style={{
                   position:"fixed",
@@ -198,36 +198,11 @@ function HomePage(props) {
             </Button>
             </NavItem>
           </Nav>
-                <div className="nav-align-center">
-                {/* <Nav className="justify-content-center col-md-12" role="tablist" tabs>
-                    {
-                      categories.map((item, index) => (                      
-                        <NavItem key={`nav_${index}`}>
-                          
-                        <NavLink
-                          href="#"
-                          className={pills === index ? "active" : ""} 
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setPills(pills === index ? -1 : index);
-                            setCurrentList(pills === index ? 
-                                           products : 
-                                           products.filter(p => p.category === (index + 1).toString())
-                                          )
-                          }}
-                        >
-                          {item.value}
-                        </NavLink>
-                      </NavItem>
-                    ))
-                  }
-                  </Nav>  */}
-                </div>
               </Col>
               <Row>
                 
               </Row>
-              <TabContent className="gallery" >
+              <TabContent className="gallery">
               <TabPane >
                 <Col className="ml-auto mr-auto text-center">
                   <Row className="collections">                              
@@ -244,16 +219,49 @@ function HomePage(props) {
                               width="320px"
                             ></img>
                             <hr></hr>
-                            <CardBody>
+                            <CardBody style={{marginTop:"-50px"}}>
                               <CardTitle tag="h4" style={{fontSize:"1.3em", textAlign:"left"}}>{product.name}</CardTitle>
                               <Row>
                                 <Col md="9">
                                   <CardText style={{marginTop: "10px", textAlign:"left"}}>
-                                    <p style={{fontWeight:"300"}}>{parseFloat(product.price).toLocaleString()}Đ</p>
+                                    <p className="price-info">
+                                      {
+                                        Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)
+                                  
+                                      }
+                                    </p>
                                   </CardText>
                                 </Col>
                                 <Col md="3"> 
-                                  <Button
+                                <a href="#" style={{color:"black"}} onClick={e=>e.preventDefault()}>
+                                <i class="fas fa-shopping-cart fa-2x" 
+                                    style={{fontSize:"2em"}}
+                                    id={`top_${ind}`}
+                                    onClick={e => {
+                                      e.preventDefault(); 
+                                      setModalLive(true); 
+                                      setCurrentProduct(product); 
+                                      
+                                      setCurrentPrice(parseInt(product.price));
+                                      setTotalPrice(parseInt(product.price));
+                                      setCurrentToppings(
+                                        product.toppings ? 
+                                        toppings.filter(t => product.toppings.includes(t.id)).map(
+                                          pt => {
+                                            let ct = {}
+                                            ct.id = pt.id;
+                                            ct.value = pt.value;
+                                            ct.price = pt.price;
+                                            ct.picked = false;
+                                            return ct; 
+                                          }
+                                        ) : 
+                                        []
+                                      )
+                                    }}
+                                ></i>
+                                </a>
+                                  {/* <Button
                                     id={`top_${ind}`}
                                     className="btn-round pull-right"
                                     color="info"
@@ -282,8 +290,8 @@ function HomePage(props) {
                                       )
                                     }}
                                   >
-                                    +
-                                  </Button>
+                                    <i class="fas fa-shopping-cart fa-2x" style={{fontSize:"1.4em"}}></i>
+                                  </Button> */}
                                   <UncontrolledTooltip placement="right" target={`top_${ind}`} delay={0}>
                                       Thêm vào giỏ hàng
                                   </UncontrolledTooltip>
@@ -327,10 +335,11 @@ function HomePage(props) {
             type="button"
             onClick={() => {setModalLive(false); setCurrentSize("M"); setQuantity(1)}}
           >
-            <span aria-hidden={true}>X</span>
+            <span className="modalX" aria-hidden={true}>X</span>
           </button>
+          
         </div>
-        <div className="modal-body"> 
+        <div className="modal-body" style={{marginTop:"-30px"}}> 
         <hr></hr>    
           <Row>
             <Col md="4">
@@ -375,7 +384,7 @@ function HomePage(props) {
                               setTotalPrice((currentPrice + sizePrice) * quantity)
                             }}
                           >
-                            L + 5000
+                            L + {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(5000)}
                           </Button> 
                   
                     </Col> 
@@ -414,7 +423,7 @@ function HomePage(props) {
                           setTotalPrice((currentPrice + toppingValue) * quantity);
                         }}
                       >
-                        {topping.value} + {topping.price.toLocaleString()}k
+                        {topping.value} + {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(topping.price)}
                       </Button>
                        )) 
                      }
@@ -484,7 +493,7 @@ function HomePage(props) {
                     value={note}
                     onChange={e => {setNote(e.target.value)}}
                     placeholder="Ít đường, đá" 
-                    type="text"
+                    type="textarea"
                   />
                 </Col>
               </Row>
@@ -494,7 +503,14 @@ function HomePage(props) {
                 <p style={{fontWeight:"500"}}>Tổng tiền</p>              
               </Col>
               <Col md="9" style={{margin: "auto",padding: "8px"}}>
-                          <p style={{fontWeight:"500"}}>{totalPrice.toLocaleString()} VNĐ</p>
+                  <p className="price-info">
+                  {
+                    Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice)
+              
+                  }
+                  </p>
+
+                 
                 </Col>
               </Row>
               
@@ -503,14 +519,7 @@ function HomePage(props) {
            
           <hr></hr>  
          <div className="text-center">
-         <Button
-            className="btn-round btn-lg"
-            color="secondary"
-            type="button"
-            onClick={() => {setModalLive(false); setCurrentSize("M"); setQuantity(1)}}
-          >
-            Hủy
-          </Button>
+         
          <Button
             className="btn-round btn-lg"
             color="info"
