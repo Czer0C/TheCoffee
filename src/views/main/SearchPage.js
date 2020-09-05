@@ -43,9 +43,9 @@ function SearchPage(props) {
   const [currentSize, setCurrentSize] = useState("M");
   const [modalLive, setModalLive] = useState(false);  
 
-  const categoriesAPI = 'https://thecoffeebackend.herokuapp.com/category';
-  const productsAPI = 'https://thecoffeebackend.herokuapp.com/products';
-  const toppingsAPI = 'https://thecoffeebackend.herokuapp.com/topping';
+  const categoriesAPI = 'https://aed2c3402d87.ngrok.io/category';
+  const productsAPI = 'https://aed2c3402d87.ngrok.io/products';
+  const toppingsAPI = 'https://aed2c3402d87.ngrok.io/topping';
 
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
