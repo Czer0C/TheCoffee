@@ -371,7 +371,7 @@ function CartPage(props) {
                               value={item.note}
                               onChange={e => updateItemNote(index, e)}
                               placeholder="Ít đường, đá" 
-                              type="text"
+                              type="textarea"
                               onSubmit={e => {
                                 e.preventDefault();
                               }}
@@ -396,7 +396,7 @@ function CartPage(props) {
                             }}
                           
                           >
-                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                            <i class="now-ui-icons ui-1_simple-remove" style={{fontSize:"1.3em"}}></i>
                           </button>
                           <UncontrolledTooltip placement="right" target={`delete_${index}`} delay={0}>
                               Xóa khỏi giỏ hàng
@@ -415,7 +415,7 @@ function CartPage(props) {
                     </Link>
                     </td>
                     <td></td>
-                    <td style={{textAlign: "center", paddingTop:"20px", fontSize:"1.5em"}}>Tổng Tiền</td>
+                    <td style={{textAlign: "center", paddingTop:"20px", fontSize:"1.5em"}}>Tổng Tiền:</td>
                     <td style={{textAlign: "center", paddingTop:"20px", fontSize:"1.5em"}}>
                       {/* {totalPrice}Đ */}
                       <p className="price-info">
@@ -449,7 +449,7 @@ function CartPage(props) {
               }
 
               <Modal
-                modalClassName="modal-mini modal-danger"
+                modalClassName="modal-mini modal-info"
                 toggle={() => setModalLive(false)}
                 isOpen={modalLive}
               >

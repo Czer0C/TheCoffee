@@ -24,6 +24,7 @@ import {
   ModalBody,
   Form,
   UncontrolledTooltip,
+  ModalHeader,
 } from "reactstrap";
 
 // core components
@@ -32,12 +33,14 @@ import ProfilePageHeader from "components/Headers/ProfilePageHeader.js";
 import DefaultFooter from "components/Footers/DefaultFooter.js";
 import CheckoutNavbar from 'components/Navbars/CheckoutNavbar.js';
 import { getSourceMapRange } from "typescript";
-
+import './CheckoutPage.css';
 function CheckoutPage() {
   const [pills, setPills] = React.useState("2");
   const [items, setItems] = React.useState(JSON.parse(localStorage.getItem("items")));
+  const [currentItem, setCurrentItem] = React.useState(null)
   const [deliveryInfo, setDeliveryInfo] = React.useState(JSON.parse(localStorage.getItem("deliveryInfo")));
   const [modalLive, setModalLive] = React.useState(false);
+  const [modalLive2, setModalLive2] = React.useState(false);
   const [status, setStatus] = React.useState(0); // 0: awaiting | 1: success | -1: failed
   const searchProduct = () => {
 
@@ -92,17 +95,15 @@ function CheckoutPage() {
                    {
                      deliveryInfo ?
                      <><CardTitle>
-                     <center><h3>Chi tiết giỏ hàng</h3></center>
+                     <center><h3>Thông tin đơn hàng</h3></center>
                      </CardTitle>
-                   <Table responsive >
+                   <Table responsive style={{fontSize:"1.3em"}}>
                       <thead>
                         <tr>
-                          <th style={{textAlign: "center"}} colspan="2">Sản Phẩm</th>
-                          <th style={{textAlign: "center"}}>Kích cỡ</th>
-                          <th style={{textAlign: "center"}}>Topping</th>
+                          <th style={{textAlign: "center"}} colspan="2">Sản Phẩm</th>                          
                           <th style={{textAlign: "center"}}>Số lượng</th>
-                          <th style={{textAlign: "center"}}>Ghi Chú</th>
                           <th style={{textAlign: "center"}}>Giá</th>
+                          <th style={{textAlign: "center"}}>Chi tiết</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -121,10 +122,10 @@ function CheckoutPage() {
                               <td style={{textAlign: "center", paddingTop:"32px"}}>
                               {item.productDetail.name}
                               </td>
-                              <td style={{textAlign: "center", paddingTop:"32px"}}>
+                              {/* <td style={{textAlign: "center", paddingTop:"32px"}}>
                                 {item.size}
-                              </td>
-                              <td style={{ paddingLeft: "50px"}}>
+                              </td> */}
+                              {/* <td style={{ paddingLeft: "50px"}}>
                                 <FormGroup check>
                                 {
                                   item.topping ? 
@@ -147,94 +148,92 @@ function CheckoutPage() {
                                   null
                                 }
                                 </FormGroup>  
-                              </td>
+                              </td> */}
                               <td style={{textAlign: "center", paddingTop:"32px"}}>
                                 {item.quantity}
                               </td>
-                              <td style={{textAlign: "center", paddingTop:"32px"}}>
+                              {/* <td style={{textAlign: "center", paddingTop:"32px"}}>
                                 {item.note}
-                              </td>
+                              </td> */}
                               <td style={{textAlign: "center", paddingTop:"32px"}}>
-                                {item.price}
+                              {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}
+                              </td>
+                              <td style={{textAlign: "center", paddingTop:"32px", fontSize: "1.5em"}}>
+                                <i 
+                                  class="fas fa-info-circle checkoutInfo" 
+                                  id={`info_${index}`}
+                                  onClick={e => {
+                                    setCurrentItem(item);
+                                    setModalLive2(true);
+                                  }}
+                                />
+                                <UncontrolledTooltip placement="bottom" target={`info_${index}`} delay={0}>
+                                      Xem chi tiết của sản phẩm này
+                                  </UncontrolledTooltip>
                               </td>
                             </tr>
                           ))
                         }
                       </tbody>
-                      <tfoot>
-                        <td colSpan="4"></td>
-                        <td 
-                          style={{
-                            textAlign: "center", 
-                            paddingTop:"20px", 
-                            fontSize:"1.5em"
-                        }}>
-                          Tổng Tiền
-                        </td>
-                        <td 
-                          style={{
-                            textAlign: "center", 
-                            paddingTop:"20px", 
-                            fontSize:"1.5em"
-                        }}>
-                          {
-                          items.reduce((sum, curr) => { 
-                              return sum + curr.totalPrice;
-                          }, 0)}Đ
-                        </td>
-                        <td></td>
-                      </tfoot>
+                      
                     </Table>
                     <hr></hr>
                       <CardTitle>
                       <center><h3>Thông tin giao hàng</h3></center>
                       </CardTitle>
-                      <Form onSubmit={e => e.preventDefault()} >
-                          <Row>
-                          <Col><FormGroup >
-                      <label htmlFor="name">Họ Tên</label>
-                      <Input 
-                        id="name" 
-                        type="text"
-                        value={deliveryInfo ? deliveryInfo.name : ""}
-                        disabled
-                      />
-                    </FormGroup></Col>
-                    <Col><FormGroup >
-                      <label htmlFor="name">Số điện thoại</label>
-                      <Input 
-                        id="phone" 
-                        type="text"
-                        value={deliveryInfo ? deliveryInfo.phone : ""}
-                        disabled
-                      />
-                    </FormGroup></Col>
-                          </Row>
-                    <Row>
-                        <Col>
-                        <FormGroup>
-                      <label htmlFor="name">Địa chỉ</label>
-                      <Input 
-                        id="address" 
-                        type="text"
-                        value={deliveryInfo ? deliveryInfo.address : ""}
-                        disabled
-                      />
-                    </FormGroup></Col>
-                    <Col>
-                    <FormGroup >
-                      <label htmlFor="name">Ghi chú</label>
-                      <Input 
-                        id="note" 
-                        type="text"
-                        value={deliveryInfo ? deliveryInfo.note : ""}
-                        disabled
-                      />
-                    </FormGroup></Col>
-                    </Row>
-                  </Form>
+
+                      <div style={{fontWeight:500, fontSize:"1.3em"}}>
+                      <Row>
+                        <Col md="3" className="text-left">
+                          Họ Tên: {deliveryInfo.name}
+                        </Col>
+                        <Col md="4" className="text-left">
+                          Số Điện Thoại: {deliveryInfo.phone}
+                        </Col>
+                      </Row>
+                      <br></br>
+                      <Row>
+                        
+                      </Row>
+                      <Row>
+                        <Col md="3" className="text-left">
+                          Địa Chỉ: {deliveryInfo.address}
+                        </Col>
+                        <Col md="3" className="text-left">
+                          Quận: {deliveryInfo.district}
+                        </Col>
+                        <Col md="3" className="text-left">
+                          Thành Phố: {deliveryInfo.city}
+                        </Col>
+                      </Row>
+                      <br></br>
+                      <Row>
+                        <Col className="text-left">
+                          Ghi Chú: {deliveryInfo.note}
+                        </Col>
+                      </Row>
+                      </div>
+                      
                     <hr>
                     </hr> 
+                    <Row style={{fontSize:"1.5em", marginTop:"30px", marginBottom:"60px"}} >
+                    <Col className="text-right">
+                      Tổng Tiền: 
+                    </Col>
+                    <Col className="text-left price-info">
+                      {
+                        
+                        Intl.NumberFormat('vi-VN', { 
+                          style: 'currency', currency: 'VND' 
+                        }).format(
+                          items.reduce((sum, curr) => { 
+                            return sum + curr.totalPrice;
+                          }, 0)
+                        )                    
+                      }
+                    </Col>
+                    </Row>
+                    <hr></hr>
                 <div className="text-center">
                 <Link
                   className="btn btn-round btn-secondary pull-left btn-lg" 
@@ -302,6 +301,154 @@ function CheckoutPage() {
                </Link>
              </div>
            }
+           <Modal
+                className="modal-lg"
+                toggle={() => setModalLive2(false)}
+                isOpen={modalLive2}
+              >
+                <div className="modal-header">
+                  <div className="modal-profile closeDetail">
+                    <a href="#" onClick={e=>e.preventDefault()}>
+                      <i 
+                        className="now-ui-icons ui-1_simple-remove" 
+                        onClick={e=>setModalLive2(false)}
+                        style={{fontSize: "2em"}}
+                      />
+                    </a>
+                  </div>
+                </div>
+                {
+                    currentItem ? 
+                    <Row>
+                <h4 style={{margin:"auto"}}>{currentItem.productDetail.name}</h4>
+                
+              </Row>
+                    : ""
+                  }
+                  
+                <ModalBody style={{textAlign: "center"}}>
+                
+                  {
+                    currentItem ? 
+                    <Row>
+            <Col md="5">
+              <img
+                alt="..."
+                className="img"
+                src={`https://raw.githubusercontent.com/tnguyen571/thecoffeebackend/master/images/${currentItem.productDetail.image}`}
+                height="240px"
+                width="240px"
+                style={{margin: "auto", marginTop:"30px"}}
+              />
+            </Col>
+
+            <Col md="7">
+              <Row>
+                <h4 style={{margin: "auto", paddingBottom:"30px"}}>{currentItem.name}</h4>
+              </Row>
+              <Row >  
+                    <Col md="3" className="text-right">
+                      <p style={{fontWeight:"500"}}>Kích cỡ:</p>
+                    </Col>   
+                    <Col md="3" className="text-left">
+                        <p style={{fontWeight:"500"}}>{currentItem.size}</p>                      
+                    </Col> 
+              </Row>
+              
+              {
+                    
+                    currentItem.topping.length === 0 ? 
+                    null : 
+                    <Row style={{ marginTop:"10px",marginBottom:"15px"}}>
+            
+                <Col md="3" className="text-right"><p style={{fontWeight:"500", marginTop:"10px"}}>Thêm:</p></Col>
+                <Col md="9">
+                <FormGroup check style={{paddingLeft:"13px"}}>
+                {
+                       
+                       currentItem.topping.map((topping, index) => (
+                        <Row>
+                          <Label check>
+                          <Input 
+                            defaultValue="" 
+                            type="checkbox" 
+                            checked={topping.picked}
+                            disabled
+                          />
+                          {topping.value} + {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(topping.price)}
+                          <span className="form-check-sign">
+                            <span className="check"></span>
+                          </span>
+                        </Label>
+                        </Row>
+                       )) 
+                     }
+                </FormGroup>
+                </Col>
+              </Row>
+              }
+              <Row >
+              
+              <Col md="3" className="text-right">
+                <p style={{fontWeight:"500"}}>Số lượng:</p>              
+              </Col>
+              <Col md="3" className="text-left">
+              <p>
+            <p style={{fontWeight:"500"}}>{currentItem.quantity}</p>     
+                </p>
+              </Col>
+              </Row>
+
+
+              <Row >              
+                <Col md="3" className="text-right">
+                  <p style={{fontWeight:"500"}}>Ghi chú:</p>              
+                </Col>
+                <Col md="3" className="text-left">
+                  <p style={{fontWeight:"500"}}>{currentItem.note}</p>
+                </Col>
+              </Row>
+
+              <Row>
+              <Col md="3" className="text-right">
+                <p style={{fontWeight:"500"}}>Tổng tiền:</p>              
+              </Col>
+              <Col md="3" className="text-left">
+                  <p className="price-info">
+                  {
+                    Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(currentItem.price)
+              
+                  }
+                  </p>
+
+                 
+                </Col>
+              </Row>
+              
+            </Col>
+          </Row> : null
+                  }
+                  <hr></hr>
+                  <Button
+            className="btn-round btn-lg"
+            color="info"
+            type="button"
+                  onClick={e=>setModalLive2(false)}
+            >
+              Đóng
+            </Button>
+                </ModalBody>
+                <div className="modal-footer">
+                  <Button 
+                    className="btn-neutral" 
+                    color="link" 
+                    type="button"
+                    onClick={() => setModalLive2(false)}
+                  >
+                    Hủy
+                  </Button>
+                </div>
+              </Modal>
                
                <Modal
                 modalClassName="modal-mini modal-success"

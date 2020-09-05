@@ -38,6 +38,7 @@ import {
   Label,
   Table,
   Row,
+  Dropdown,
 } from "reactstrap";
 
 import ExamplesNavbar from '../../components/Navbars/ExamplesNavbar.js';
@@ -60,11 +61,45 @@ function DeliveryPage(props) {
   const [name, setName] = React.useState("");
   const [phone, setPhone] = React.useState("");
   const [address, setAddress] = React.useState("");
-  const [district, setDistrict] = React.useState("");
   const [note, setNote] = React.useState("");
   const [deliveryStatus, setDeliveryStatus] = React.useState(0);
   const [deliveryInfo, setDeliveryInfo] = React.useState({});
   const [iconTabs, setIconTabs] = React.useState("1");
+
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownOpen2, setDropdownOpen2] = useState(false);
+  const toggle = () => setDropdownOpen(prevState => !prevState);
+  const toggle2 = () => setDropdownOpen(prevState => !prevState);
+
+  const districtList = [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
+    "Bình Tân",
+    "Bình Thạnh",
+    "Gò Vấp",
+    "Phú Nhuận",
+    "Tân Bình",
+    "Tân Phú",
+    "Thủ Đức",
+    "Huyện Bình Chánh",
+    "Huyện Cần Giờ",
+    "Huyện Củ Chi",
+    "Huyện Hóc Môn",
+    "Huyện Nhà Bè"
+  ];
+  
+  const [district, setDistrict] = React.useState(districtList[0]);
 
   const searchProduct = () => {
 
@@ -92,6 +127,8 @@ function DeliveryPage(props) {
       setPhone(savedInfo.phone);
       setAddress(savedInfo.address);
       setNote(savedInfo.note);
+      
+      setDistrict(savedInfo.district);
       setDeliveryInfo(savedInfo);
     }
 
@@ -191,7 +228,7 @@ function DeliveryPage(props) {
                     </div>
                  </FormGroup>
                <div className="form-row">
-               <FormGroup className="col-md-9">
+               <FormGroup className="col-md-8">
                  <label htmlFor="address">Địa Chỉ</label>
                  <Input
                    id="address"
@@ -215,36 +252,43 @@ function DeliveryPage(props) {
                     </div>
                </FormGroup>
                
-               <FormGroup className="col-md-3">
+               <FormGroup className="col-md-2">
                  <label htmlFor="district">Quận</label>
-                 <UncontrolledDropdown>
-                          <DropdownToggle
-                            aria-expanded={false}
-                            aria-haspopup={true}
-                            caret
-                            color="success"
-                            data-toggle="dropdown"
-                            id="dropdownMenuButton"
-                            type="button"
-                            className="btn-sm"
-                          >
-                            1
-                          </DropdownToggle>
-                          <DropdownMenu aria-labelledby="dropdownMenuButton">
-                            <DropdownItem onClick={e => {
-                                e.preventDefault();
-                                // updateItemSize(item, index, "M");
-                            }}>
-                              1
-                            </DropdownItem>
-                            <DropdownItem onClick={e => {
-                                e.preventDefault(); 
-                                // updateItemSize(item, index, "L");
-                              }}>
-                              2
-                            </DropdownItem>
-                          </DropdownMenu>
-                        </UncontrolledDropdown>
+                 <Dropdown isOpen={dropdownOpen} toggle={toggle} >
+                  <DropdownToggle 
+                    caret 
+                    size="sm"
+                    color="success"
+                    style={{marginTop: "5px"}}
+                  >
+                    {district}  
+                  </DropdownToggle>
+                  <DropdownMenu style={{height: "200px", overflow: "auto"}}> 
+                    {
+                      districtList.map((d, ind) => (
+                        <DropdownItem onClick={e => {
+                          e.preventDefault();
+                          setDistrict(d);
+                      }}>
+                        {d}
+                      </DropdownItem>
+                      ))
+                    }
+                  </DropdownMenu>
+                </Dropdown>
+               </FormGroup>
+               <FormGroup className="col-md-2">
+                 <label htmlFor="district">Thành Phố</label>
+                 <Dropdown disabled isOpen={dropdownOpen2} toggle={toggle2}>
+                  <DropdownToggle 
+                    caret 
+                    size="sm"
+                    color="success"
+                    style={{marginTop: "5px"}}
+                  >
+                    HCM
+                  </DropdownToggle>
+                </Dropdown>
                </FormGroup>
                </div>
                <FormGroup>
@@ -270,6 +314,8 @@ function DeliveryPage(props) {
                      name: name,
                      phone: phone,
                      address: address,
+                     district: district,
+                     city: "HCM",
                      note: note
                    };
                    setDeliveryInfo(temp);

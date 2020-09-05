@@ -329,15 +329,23 @@ function HomePage(props) {
           <h3 className="modal-title" id="exampleModalLiveLabel" style={{margin: "auto  "}}>
             Đặt Mua
           </h3>     
-          <button
+          {/* <button
             aria-label="Close"
             className="close"
             type="button"
             onClick={() => {setModalLive(false); setCurrentSize("M"); setQuantity(1)}}
           >
             <span className="modalX" aria-hidden={true}>X</span>
-          </button>
-          
+          </button> */}
+          <div className="modal-profile closeDetail">
+                    <a href="#" onClick={e=>e.preventDefault()}>
+                      <i 
+                        className="now-ui-icons ui-1_simple-remove" 
+                        onClick={e=>{setModalLive(false); setCurrentSize("M"); setQuantity(1)}}
+                        style={{fontSize: "2em"}}
+                      />
+                    </a>
+                  </div>
         </div>
         <div className="modal-body" style={{marginTop:"-30px"}}> 
         <hr></hr>    
