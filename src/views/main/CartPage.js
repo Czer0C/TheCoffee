@@ -253,6 +253,7 @@ function CartPage(props) {
                             aria-expanded={false}
                             aria-haspopup={true}
                             caret
+                            size="sm"
                             color="success"
                             data-toggle="dropdown"
                             id="dropdownMenuButton"
@@ -347,7 +348,7 @@ function CartPage(props) {
                             <Input 
                               value={item.note}
                               onChange={e => updateItemNote(index, e)}
-                              placeholder="Ít đường, đá" 
+                              placeholder="VD: ít đường, đá" 
                               type="textarea"
                               onSubmit={e => {
                                 e.preventDefault();
@@ -357,13 +358,16 @@ function CartPage(props) {
                         </td>
                         <td style={{textAlign: "center"}}>
                           
+                          
+                          <div style={{marginTop:"15px"}}>
+
                           {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.totalPrice)}
-                          <div style={{margin:"auto"}}>
-                          <button 
-                            type="button" 
-                            data-placement="right" 
-                            className="btn btn-neutral"
-                            id={`delete_${index}`} 
+                          
+                          <a href="#" onClick={e=>e.preventDefault()}>
+                            <i 
+                              className="now-ui-icons ui-1_simple-remove" 
+                              style={{paddingLeft:"3px"}}
+                              id={`delete_${index}`} 
                               onClick={e => {
                                 e.preventDefault();
                                 setCurrentItemIndex(index);
@@ -371,10 +375,8 @@ function CartPage(props) {
                                 setModalType(0);
                                 setRemovedItem(item.productDetail.name);
                             }}
-                          
-                          >
-                            <i className="now-ui-icons ui-1_simple-remove" style={{fontSize:"1.3em"}}></i>
-                          </button>
+                            />
+                          </a>
                           </div>
                           <UncontrolledTooltip placement="right" target={`delete_${index}`} delay={0}>
                               Xóa khỏi giỏ hàng
