@@ -215,8 +215,8 @@ function HomePage(props) {
                                     </span>
                                   </CardText>
                                 </Col>
-                                <Col md="3"> 
-                                <a href="#" style={{color:"black"}} onClick={e=>e.preventDefault()}>
+                                <Col md="3" style={{margin:"auto"}}> 
+                                <a href="#" style={{color:"#56b7bb"}} onClick={e=>e.preventDefault()}>
                                 <i className="fas fa-shopping-cart fa-2x" 
                                     style={{fontSize:"2em"}}
                                     id={`top_${ind}`}
