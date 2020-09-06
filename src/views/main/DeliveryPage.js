@@ -66,11 +66,11 @@ function DeliveryPage(props) {
     "Tân Bình",
     "Tân Phú",
     "Thủ Đức",
-    "Huyện Bình Chánh",
-    "Huyện Cần Giờ",
-    "Huyện Củ Chi",
-    "Huyện Hóc Môn",
-    "Huyện Nhà Bè"
+    "Bình Chánh",
+    "Cần Giờ",
+    "Củ Chi",
+    "Hóc Môn",
+    "Nhà Bè"
   ];
   
   const [district, setDistrict] = React.useState(districtList[0]);
@@ -94,17 +94,33 @@ function DeliveryPage(props) {
     else {
       localStorage.setItem("items", JSON.stringify([]));
     }   
-    
-    let savedInfo = JSON.parse(localStorage.getItem("deliveryInfo"));
-    if (savedInfo) {
-      setName(savedInfo.name);
-      setPhone(savedInfo.phone);
-      setAddress(savedInfo.address);
-      setNote(savedInfo.note);
-      
-      setDistrict(savedInfo.district);
-      setDeliveryInfo(savedInfo);
+    setName(localStorage.getItem("name"));
+    setPhone(localStorage.getItem("phone"));
+    setAddress(localStorage.getItem("address"));
+    setNote(localStorage.getItem("note"));
+    let tDistrict = localStorage.getItem("district");
+    if (tDistrict) {
+      setDistrict(tDistrict);
     }
+    else {
+      setDistrict(districtList[0]);
+      localStorage.setItem("district", districtList[0]);
+    }
+    
+
+    //   setDistrict(savedInfo.district);
+    // let savedInfo = JSON.parse(localStorage.getItem("deliveryInfo"));
+
+
+    // if (savedInfo) {
+    //   setName(savedInfo.name);
+    //   setPhone(savedInfo.phone);
+    //   setAddress(savedInfo.address);
+    //   setNote(savedInfo.note);
+      
+    //   setDistrict(savedInfo.district);
+    //   setDeliveryInfo(savedInfo);
+    // }
 
     return function cleanup() {
       document.body.classList.remove("profile-page");
@@ -156,7 +172,7 @@ function DeliveryPage(props) {
                      value={name}
                      required
                      className={inputName}
-                     onChange={e => {setName(e.target.value)}}
+                     onChange={e => {setName(e.target.value); localStorage.setItem("name", e.target.value)}}
                      onBlur={e=>{
                        if (name !== "") {
                          setInputName("is-valid")
@@ -179,7 +195,7 @@ function DeliveryPage(props) {
                      required
                      value={phone}
                      className={inputPhone}
-                     onChange={e => {setPhone(e.target.value)}}
+                     onChange={e => {setPhone(e.target.value); localStorage.setItem("phone", e.target.value)}}
                      onBlur={e=>{
                       if (phone !== "") {
                         setInputPhone("is-valid")
@@ -203,7 +219,7 @@ function DeliveryPage(props) {
                    className={inputAddress}
                    required
                    value={address}
-                   onChange={e => {setAddress(e.target.value)}}
+                   onChange={e => {setAddress(e.target.value); localStorage.setItem("address", e.target.value)}}
                    onBlur={e=>{
                     if (address !== "") {
                       setInputAddress("is-valid")
@@ -219,7 +235,7 @@ function DeliveryPage(props) {
                </FormGroup>
                
                <FormGroup className="col-md-2 text-center">
-                 <label htmlFor="district">Quận</label>
+                 <label htmlFor="district">Quận/Huyện</label>
                  <Dropdown isOpen={dropdownOpen} toggle={toggle} >
                   <DropdownToggle 
                     caret 
@@ -235,6 +251,7 @@ function DeliveryPage(props) {
                         <DropdownItem key={`district_${ind}`} onClick={e => {
                           e.preventDefault();
                           setDistrict(d);
+                          localStorage.setItem("district", d);
                       }}>
                         {d}
                       </DropdownItem>
@@ -266,7 +283,7 @@ function DeliveryPage(props) {
                    type="textarea"
                    value={note}
                    className={inputNote}
-                   onChange={e => {setNote(e.target.value)}}
+                   onChange={e => {setNote(e.target.value); localStorage.setItem("note", e.target.value)}}
                    
                  />
                </FormGroup>            
@@ -276,7 +293,7 @@ function DeliveryPage(props) {
                 to="/checkout"
               
                 onClick={(e) => {
-                 if (name && phone && address && note) {
+                 if (name && phone && address) {
                    let temp = {
                      name: name,
                      phone: phone,
@@ -286,14 +303,13 @@ function DeliveryPage(props) {
                      note: note
                    };
                    setDeliveryInfo(temp);
-                   localStorage.setItem("deliveryInfo", JSON.stringify(temp))
+                   localStorage.setItem("deliveryInfo", JSON.stringify(temp));
                   return;
                  }
                  else {
                    if (!name) setInputName("is-invalid");
                    if (!phone) setInputPhone("is-invalid");
                    if (!address) setInputAddress("is-invalid");
-                   if (!note) setInputNote("is-invalid");
                   e.preventDefault();
                  }
                   

@@ -24,25 +24,33 @@ import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import DefaultFooter from "components/Footers/DefaultFooter.js";
 import CheckoutNavbar from 'components/Navbars/CheckoutNavbar.js';
 import './CheckoutPage.css';
+import ProductNavbar from "components/Navbars/ProductNavbar";
 function CheckoutPage() {
   const [pills, setPills] = React.useState("2");
   const [items, setItems] = React.useState(JSON.parse(localStorage.getItem("items")));
   const [currentItem, setCurrentItem] = React.useState(null)
-  const [deliveryInfo, setDeliveryInfo] = React.useState(JSON.parse(localStorage.getItem("deliveryInfo")));
+  const [deliveryInfo, setDeliveryInfo] = React.useState(null);
   const [modalLive, setModalLive] = React.useState(false);
   const [modalLive2, setModalLive2] = React.useState(false);
   const [status, setStatus] = React.useState(0); // 0: awaiting | 1: success | -1: failed
+  
+  const name= localStorage.getItem('name');
+  const phone= localStorage.getItem('phone');
+  const address= localStorage.getItem('address');
+  const district= localStorage.getItem('district');
+  const note= localStorage.getItem('note');
+
   const searchProduct = () => {
 
   }
-  const confirmModal = () => {
-    
+  const confirmModal = () => {    
     localStorage.removeItem("items");
     localStorage.removeItem("deliveryInfo");
-    setStatus(1)
+    setStatus(1);
   }
 
   React.useEffect(() => {
+    console.log(phone);
     document.body.classList.add("profile-page");
     document.body.classList.add("sidebar-collapse");
     document.documentElement.classList.remove("nav-open");
@@ -81,7 +89,7 @@ function CheckoutPage() {
                  </CardTitle>
                  <CardBody>
                    {
-                     deliveryInfo ?
+                     name && address && phone ?
                      <><CardTitle>
                      <center><h3>Thông tin đơn hàng</h3></center>
                      </CardTitle>
@@ -143,39 +151,69 @@ function CheckoutPage() {
                       <center><h3>Thông tin giao hàng</h3></center>
                       </CardTitle>
 
-                      <div style={{fontWeight:500, fontSize:"1.3em", paddingLeft:"70px"}}>
+                      <div style={{fontWeight:500, fontSize:"1.1rem", paddingLeft:"70px"}} >
                       <Row>
+                        <Col md="3" className="text-left deliveryDetail">
+                          Họ Tên: 
+                        </Col>
+                        <Col md="3" className="text-left deliveryDetail">
+                          Số Điện Thoại:
+                        </Col>
+                      </Row>    
+
+                      <Row>
+                      <Col md="3" className="text-left">
+                          {localStorage.getItem('name')}
+                        </Col>
+                      
                         <Col md="3" className="text-left">
-                          Họ Tên: {deliveryInfo.name}
-                        </Col>
-                        <Col md="4" className="text-left">
-                          Số Điện Thoại: {deliveryInfo.phone}
-                        </Col>
-                      </Row>        
+                           {localStorage.getItem('phone')}
+                        </Col>  
+                      </Row>    
                       <br></br>
                       <Row>
                         
                       </Row>
                       <Row>
-                        <Col md="3" className="text-left">
-                          Địa Chỉ: {deliveryInfo.address}
+                        <Col className="text-left deliveryDetail">
+                          Địa Chỉ:
                         </Col>
-                        <Col md="3" className="text-left">
-                          Quận: {deliveryInfo.district}
+                        
+                      </Row>
+                      <Row>
+                        <Col className="text-left">
+                           {localStorage.getItem('address')}
                         </Col>
-                        <Col md="3" className="text-left">
-                          Thành Phố: {deliveryInfo.city}
-                        </Col>
+                        
                       </Row>
                       <br></br>
                       <Row>
-                        <Col className="text-left">
+                      <Col md="3" className="text-left deliveryDetail">
+                          Quận/Huyện: 
+                        </Col>
+                        <Col md="3" className="text-left deliveryDetail">
+                          Thành Phố:
+                        </Col>
+                      </Row>
+                      <Row>
+                      <Col md="3" className="text-left">
+                          {localStorage.getItem('district')} 
+                        </Col>
+                        <Col md="3" className="text-left">
+                          HCM
+                        </Col>
+                      </Row>
+                      
+                      
+                      <br></br>
+                      <Row>
+                        <Col className="text-left deliveryDetail">
                           Ghi Chú: 
                         </Col>
                       </Row>
                       <Row className="text-left" style={{overflowWrap:"anywhere", whiteSpace:"pre-wrap"}}>
                         <Col>
-                        {deliveryInfo.note}</Col>
+                        {localStorage.getItem('note')}</Col>
                         </Row>
                       </div>
                       
