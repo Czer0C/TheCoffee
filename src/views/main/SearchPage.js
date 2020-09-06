@@ -48,7 +48,7 @@ function SearchPage(props) {
   const [totalPrice, setTotalPrice] = useState(0);
   const [note, setNote] = useState("");
   const [items, setItems] = React.useState(JSON.parse(localStorage.getItem("items")));
-  
+
   const [addedItem, setAddedItem] = React.useState("");
   const [alertLive, setAlertLive] = React.useState(false);
 
@@ -146,7 +146,7 @@ function SearchPage(props) {
                                 products : 
                                 products.filter(p => p.category === "1")
                               )}}
-            
+                
             >
               Cà Phê
             </Button>
@@ -196,7 +196,15 @@ function SearchPage(props) {
                   {
                       currentList.length > 0 ? 
                       currentList.map((product, ind) => (                                  
-                        <Col key={`col_product_${ind}`}>
+                        <Col 
+                          md={
+                            currentList.length === 1 ? 12 :
+                            currentList.length === 2 ? 6 :
+                            currentList.length === 3 ? 4 :
+                            3
+                          } 
+                          key={`col_product_${ind}`}
+                        >
                           <Card style={{ width: "15.9rem" }} >
                             <img
                               alt="..."
@@ -211,7 +219,7 @@ function SearchPage(props) {
                               <CardTitle tag="h4" style={{fontSize:"1.3em", textAlign:"left", fontWeight:"bold"}}>{product.name}</CardTitle>
                               <Row>
                                 <Col md="9">
-                                  <CardText style={{marginTop: "10px", textAlign:"left"}}>
+                                  <CardText style={{ textAlign:"left"}}>
                                     <span className="price-info">
                                       {
                                         Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)
@@ -220,8 +228,8 @@ function SearchPage(props) {
                                     </span>
                                   </CardText>
                                 </Col>
-                                <Col md="3"> 
-                                <a href="#" style={{color:"black"}} onClick={e=>e.preventDefault()}>
+                                <Col md="3" style={{margin:"auto"}}> 
+                                <a href="#" style={{color:"#56b7bb"}}  onClick={e=>e.preventDefault()}>
                                 <i className="fas fa-shopping-cart fa-2x" 
                                     style={{fontSize:"2em"}}
                                     id={`top_${ind}`}

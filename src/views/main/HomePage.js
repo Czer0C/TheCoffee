@@ -51,10 +51,12 @@ function HomePage(props) {
   
   const [addedItem, setAddedItem] = React.useState("");
   const [alertLive, setAlertLive] = React.useState(false);
- 
+
+
   const searchProduct = (dataFromSearchBar) => {
     setCurrentList(products.filter(p => p.name.includes(dataFromSearchBar)));
   }
+
   useEffect(() => {
     document.body.classList.add("profile-page");
     document.body.classList.add("sidebar-collapse");
@@ -191,7 +193,7 @@ function HomePage(props) {
                   {
                       currentList.length > 0 ? 
                       currentList.map((product, ind) => (                                  
-                        <Col key={`col_product_${ind}`}>
+                        <Col md={currentList.length>4?3:4} key={`col_product_${ind}`}>
                           <Card style={{ width: "15.9rem" }} >
                             <img
                               alt="..."
@@ -206,7 +208,7 @@ function HomePage(props) {
                               <CardTitle tag="h4" style={{fontSize:"1.3em", textAlign:"left", fontWeight:"bold"}}>{product.name}</CardTitle>
                               <Row>
                                 <Col md="9">
-                                  <CardText style={{marginTop: "10px", textAlign:"left"}}>
+                                  <CardText style={{textAlign:"left"}}>
                                     <span className="price-info">
                                       {
                                         Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)
