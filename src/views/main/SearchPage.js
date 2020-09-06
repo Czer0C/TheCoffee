@@ -53,7 +53,7 @@ function SearchPage(props) {
   const [alertLive, setAlertLive] = React.useState(false);
 
   const searchProduct = (dataFromSearchBar) => {
-    setCurrentList(products.filter(p => p.name.includes(dataFromSearchBar)));
+    setCurrentList(products.filter(p => p.name.toLowerCase().includes(dataFromSearchBar.toLowerCase())));
   }
   useEffect(() => {
     document.body.classList.add("profile-page");
@@ -198,10 +198,7 @@ function SearchPage(props) {
                       currentList.map((product, ind) => (                                  
                         <Col 
                           md={
-                            currentList.length === 1 ? 12 :
-                            currentList.length === 2 ? 6 :
-                            currentList.length === 3 ? 4 :
-                            3
+                            currentList.length < 4 ? 12 / currentList.length : 3
                           } 
                           key={`col_product_${ind}`}
                         >

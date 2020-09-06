@@ -54,7 +54,7 @@ function HomePage(props) {
 
 
   const searchProduct = (dataFromSearchBar) => {
-    setCurrentList(products.filter(p => p.name.includes(dataFromSearchBar)));
+    setCurrentList(products.filter(p => p.name.toLowerCase().includes(dataFromSearchBar.toLowerCase())));
   }
 
   useEffect(() => {
