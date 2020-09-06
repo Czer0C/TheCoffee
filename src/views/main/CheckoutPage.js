@@ -170,9 +170,13 @@ function CheckoutPage() {
                       <br></br>
                       <Row>
                         <Col className="text-left">
-                          Ghi Chú: {deliveryInfo.note}
+                          Ghi Chú: 
                         </Col>
                       </Row>
+                      <Row className="text-left" style={{overflowWrap:"anywhere", whiteSpace:"pre-wrap"}}>
+                        <Col>
+                        {deliveryInfo.note}</Col>
+                        </Row>
                       </div>
                       
                     <hr>
@@ -350,8 +354,8 @@ function CheckoutPage() {
                 <Col md="3" className="text-left">
                   <p style={{fontWeight:"500"}}>Ghi chú</p>              
                 </Col>
-                <Col md="3" className="text-left">
-                  <p style={{fontWeight:"500"}}>{currentItem.note}</p>
+                <Col md="9" className="text-left">
+                  <p style={{fontWeight:"500", overflowWrap:"anywhere", whiteSpace:"pre-wrap"}}>{currentItem.note}</p>
                 </Col>
               </Row>
 
