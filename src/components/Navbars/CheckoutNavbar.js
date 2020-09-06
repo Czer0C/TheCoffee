@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import {
-  Card,
-  CardBody,
   Nav,
   NavItem
 
@@ -10,7 +8,6 @@ import {
 import './CheckoutNavbar.css';
 
 function CheckoutNavbar(props) {
-  console.log(props.deliveryDone  )
   const currentTab = window.location.pathname;
   return (
     <>

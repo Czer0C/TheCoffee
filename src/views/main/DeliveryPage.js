@@ -2,52 +2,27 @@ import React, {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 // reactstrap components
 import {
-  Collapse,
   Form,
   FormGroup,
-  ButtonGroup,
   Button,
-  UncontrolledDropdown,
-  NavbarBrand,
-  Navbar,
-  NavItem,
-  NavLink,
-  Nav,
   Container,
-  UncontrolledTooltip,
   DropdownItem,
   DropdownMenu,
-  Col,
   CardBody,
   Input,
   Modal,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  Tooltip,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  ButtonDropdown,
   ModalBody,
   Card,
   CardHeader,
   CardTitle,
-  CardText,
   DropdownToggle,
-  Label,
-  Table,
   Row,
   Dropdown,
 } from "reactstrap";
 
 import ExamplesNavbar from '../../components/Navbars/ExamplesNavbar.js';
-import HomePageHeader from '../../components/Headers/HomePageHeader.js';
-import { updateParenthesizedType, isTaggedTemplateExpression } from "typescript";
 import DefaultFooter from "components/Footers/DefaultFooter.js";
-import TransparentFooter from "components/Footers/TransparentFooter.js";
 import CheckoutNavbar from "components/Navbars/CheckoutNavbar.js";
-import ProductNavbar from "components/Navbars/ProductNavbar.js";
 
 function DeliveryPage(props) {
   const [modalLive, setModalLive] = React.useState(false);  
@@ -64,7 +39,6 @@ function DeliveryPage(props) {
   const [note, setNote] = React.useState("");
   const [deliveryStatus, setDeliveryStatus] = React.useState(0);
   const [deliveryInfo, setDeliveryInfo] = React.useState({});
-  const [iconTabs, setIconTabs] = React.useState("1");
 
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -145,21 +119,13 @@ function DeliveryPage(props) {
     setItems([]);
   }
 
-  const handleDeliverySubmission = () => {
-    if (name && phone && address && note) {
-      setModalLive(true);
-    }
-  }
 
   return (    
     <>
-      <ExamplesNavbar items={items} onSearch={searchProduct} isHomePage={false}/>
-      
+      <ExamplesNavbar items={items} onSearch={searchProduct} isHomePage={false}/>      
       <div className="wrapper">
-        <div className="section">
-                  
-           {
-              
+        <div className="section">                  
+           {              
              deliveryStatus === 0 ?
              <Container>
                {
@@ -200,7 +166,7 @@ function DeliveryPage(props) {
                        }
                      }}
                    />
-                    <div class="invalid-feedback" id="name-invalid">
+                    <div className="invalid-feedback" id="name-invalid">
                       Vui lòng nhập vào họ tên
                     </div>
                  </FormGroup>
@@ -223,7 +189,7 @@ function DeliveryPage(props) {
                       }
                     }}
                    />
-                   <div class="invalid-feedback" id="phone-invalid">
+                   <div className="invalid-feedback" id="phone-invalid">
                       Vui lòng nhập vào SĐT
                     </div>
                  </FormGroup>
@@ -247,7 +213,7 @@ function DeliveryPage(props) {
                     }
                   }}
                  />
-                 <div class="invalid-feedback" id="address-invalid">
+                 <div className="invalid-feedback" id="address-invalid">
                       Vui lòng nhập vào địa chỉ
                     </div>
                </FormGroup>
@@ -266,7 +232,7 @@ function DeliveryPage(props) {
                   <DropdownMenu style={{height: "200px", overflow: "auto"}}> 
                     {
                       districtList.map((d, ind) => (
-                        <DropdownItem onClick={e => {
+                        <DropdownItem key={`district_${ind}`} onClick={e => {
                           e.preventDefault();
                           setDistrict(d);
                       }}>
@@ -418,8 +384,6 @@ function DeliveryPage(props) {
                       
             </div> 
 
-
-                  
            }        
         </div>
         

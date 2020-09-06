@@ -1,11 +1,9 @@
-import React, { useState, useEffect, Component } from 'react';
-import {Link} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 
 // reactstrap components
 import {
   Button,
   NavItem,
-  NavLink,
   Nav,
   Input,
   TabContent,
@@ -17,27 +15,17 @@ import {
   CardBody,
   CardTitle,
   CardText,
-  CardDeck,
   Modal,
   Pagination,
   PaginationItem,
   PaginationLink,
   UncontrolledTooltip,
-  Form,
-  FormGroup,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  Alert,
-  UncontrolledAlert,
-  CardColumns
+  Alert
 } from "reactstrap";
 
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
-import HomePageHeader from "components/Headers/HomePageHeader.js";
 import DefaultFooter from "components/Footers/DefaultFooter.js";
-import ProductNavbar from 'components/Navbars/ProductNavbar';
 import './HomePage.css';
 
 function HomePage(props) {
@@ -63,11 +51,7 @@ function HomePage(props) {
   
   const [addedItem, setAddedItem] = React.useState("");
   const [alertLive, setAlertLive] = React.useState(false);
-
-  const setColMD = () => {
-
-  }
-  
+ 
   const searchProduct = (dataFromSearchBar) => {
     setCurrentList(products.filter(p => p.name.includes(dataFromSearchBar)));
   }
@@ -113,8 +97,6 @@ function HomePage(props) {
     />    
     
       <div className="wrapper">
-      
-      {/* <HomePageHeader /> */}
         <div className="section">
                 <Alert color="success" isOpen={alertLive} style={{
                   position:"fixed",
@@ -209,32 +191,33 @@ function HomePage(props) {
                   {
                       currentList.length > 0 ? 
                       currentList.map((product, ind) => (                                  
-                        <Col>
-                          <Card style={{ width: "15rem" }} >
+                        <Col key={`col_product_${ind}`}>
+                          <Card style={{ width: "15.9rem" }} >
                             <img
                               alt="..."
                               className="img"
                               src={`https://raw.githubusercontent.com/tnguyen571/thecoffeebackend/master/images//${product.image}`}
                               height="240px"
                               width="320px"
+                              style={{marginBottom:"-10px"}}
                             ></img>
                             <hr></hr>
                             <CardBody style={{marginTop:"-50px"}}>
-                              <CardTitle tag="h4" style={{fontSize:"1.3em", textAlign:"left"}}>{product.name}</CardTitle>
+                              <CardTitle tag="h4" style={{fontSize:"1.3em", textAlign:"left", fontWeight:"bold"}}>{product.name}</CardTitle>
                               <Row>
                                 <Col md="9">
                                   <CardText style={{marginTop: "10px", textAlign:"left"}}>
-                                    <p className="price-info">
+                                    <span className="price-info">
                                       {
                                         Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)
                                   
                                       }
-                                    </p>
+                                    </span>
                                   </CardText>
                                 </Col>
                                 <Col md="3"> 
                                 <a href="#" style={{color:"black"}} onClick={e=>e.preventDefault()}>
-                                <i class="fas fa-shopping-cart fa-2x" 
+                                <i className="fas fa-shopping-cart fa-2x" 
                                     style={{fontSize:"2em"}}
                                     id={`top_${ind}`}
                                     onClick={e => {
@@ -261,37 +244,6 @@ function HomePage(props) {
                                     }}
                                 ></i>
                                 </a>
-                                  {/* <Button
-                                    id={`top_${ind}`}
-                                    className="btn-round pull-right"
-                                    color="info"
-                                    href="#pablo"
-                                    
-                                    onClick={e => {
-                                      e.preventDefault(); 
-                                      setModalLive(true); 
-                                      setCurrentProduct(product); 
-                                      
-                                      setCurrentPrice(parseInt(product.price));
-                                      setTotalPrice(parseInt(product.price));
-                                      setCurrentToppings(
-                                        product.toppings ? 
-                                        toppings.filter(t => product.toppings.includes(t.id)).map(
-                                          pt => {
-                                            let ct = {}
-                                            ct.id = pt.id;
-                                            ct.value = pt.value;
-                                            ct.price = pt.price;
-                                            ct.picked = false;
-                                            return ct; 
-                                          }
-                                        ) : 
-                                        []
-                                      )
-                                    }}
-                                  >
-                                    <i class="fas fa-shopping-cart fa-2x" style={{fontSize:"1.4em"}}></i>
-                                  </Button> */}
                                   <UncontrolledTooltip placement="right" target={`top_${ind}`} delay={0}>
                                       Thêm vào giỏ hàng
                                   </UncontrolledTooltip>
@@ -329,14 +281,7 @@ function HomePage(props) {
           <h3 className="modal-title" id="exampleModalLiveLabel" style={{margin: "auto  "}}>
             Đặt Mua
           </h3>     
-          {/* <button
-            aria-label="Close"
-            className="close"
-            type="button"
-            onClick={() => {setModalLive(false); setCurrentSize("M"); setQuantity(1)}}
-          >
-            <span className="modalX" aria-hidden={true}>X</span>
-          </button> */}
+          
           <div className="modal-profile closeDetail">
                     <a href="#" onClick={e=>e.preventDefault()}>
                       <i 
@@ -420,6 +365,7 @@ function HomePage(props) {
                        
                        currentToppings.map((topping, index) => (
                         <Button
+                        key={`current_topping_${index}`}
                         className={`btn-round ${topping.picked === true ? "btn-info" : "btn-outline-info"}`}
                         onClick={(e) => {
                           e.preventDefault();
@@ -508,7 +454,7 @@ function HomePage(props) {
 
               <Row style={{margin: "auto"}}>
               <Col md="3" style={{margin: "auto",padding: "8px"}}>
-                <p style={{fontWeight:"500"}}>Tổng tiền</p>              
+                <p style={{fontWeight:"500", margin:"auto"}}>Tổng tiền</p>              
               </Col>
               <Col md="9" style={{margin: "auto",padding: "8px"}}>
                   <p className="price-info">

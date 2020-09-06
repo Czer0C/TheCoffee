@@ -5,37 +5,24 @@ import {
   Collapse,
   Form,
   FormGroup,
-  Button,
-  UncontrolledDropdown,
-  NavbarBrand,
   Navbar,
   NavItem,
-  NavLink,
   Nav,
   Container,
   UncontrolledTooltip,
-  Col,
   Input,
-  Modal,
   InputGroup,
   InputGroupAddon,
   InputGroupText,
-  Alert,
-  UncontrolledAlert
 } from "reactstrap";
 
 function ExamplesNavbar(props) {
   const [navbarColor, setNavbarColor] = React.useState("navbar-transparent");
   const [collapseOpen, setCollapseOpen] = React.useState(false);
-  const [modalLive, setModalLive] = React.useState(false);  
   const [search, setSearch] = React.useState("");
   const [searchList, setSearchList] = React.useState(["Trà Sữa", "Cà Phê", "Cap"]);
   const cartSize = props.items ? Object.keys(props.items).length : 0;
 
-
-  const closeModal = () => {
-    setModalLive(false)
-  }
   React.useEffect(() => {   
     if (props.isHomePage === true) {
       const updateNavbarColor = () => {
@@ -91,6 +78,7 @@ function ExamplesNavbar(props) {
               height="35px"
               style={{display:"block",
                       margin:"auto"}} 
+              alt="logo"
               src={require(`assets/img/logo.png`)}>
             </img>
             </Link>
@@ -163,8 +151,8 @@ function ExamplesNavbar(props) {
                 </FormGroup>
               </Form>
               <datalist id="searchList">
-                {searchList.map(s => (
-                  <option>{s}</option>
+                {searchList.map((s, ind) => (
+                  <option key={`recently_searched${ind}`}>{s}</option>
                 ))}
               </datalist>
               
@@ -176,7 +164,6 @@ function ExamplesNavbar(props) {
                   style={{
                     "fontSize": "1.5em",
                   }}
-                  onClick={e => setModalLive(true)}
                 >
                   <i className="fa fa-shopping-cart">
                     <span style={{
@@ -197,26 +184,8 @@ function ExamplesNavbar(props) {
                   Giỏ hàng
                 </UncontrolledTooltip>
               </NavItem>
-              {/* <NavItem>
-                <NavLink
-                  id="profile-tooltip"
-                  style={{
-                    "fontSize": "1.5em",
-                  }}
-                  onClick={e => e.preventDefault()}
-                >
-                  <i className="fa fa-user"></i>
-                  <p className="d-lg-none d-xl-none">profile</p>
-                </NavLink>
-                <UncontrolledTooltip target="#profile-tooltip">
-                  Tài khoản cá nhân
-                </UncontrolledTooltip>
-              </NavItem> */}
-            </Nav>
-          
-              
+            </Nav>   
           </Collapse>
-          
         </Container>
       </Navbar>
     </>

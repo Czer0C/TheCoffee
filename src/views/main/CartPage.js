@@ -1,23 +1,15 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import { Link } from "react-router-dom";
 // reactstrap components
 import {
-  Collapse,
   Form,
   FormGroup,
-  ButtonGroup,
   Button,
   UncontrolledDropdown,
-  NavbarBrand,
-  Navbar,
-  NavItem,
-  NavLink,
-  Nav,
   Container,
   UncontrolledTooltip,
   DropdownItem,
   DropdownMenu,
-  Col,
   Card,
   CardHeader,
   Input,
@@ -36,10 +28,7 @@ import {
 
 import ExamplesNavbar from '../../components/Navbars/ExamplesNavbar.js';
 import DefaultFooter from "components/Footers/DefaultFooter.js";
-import HomePageHeader from "components/Headers/HomePageHeader.js";
-import TransparentFooter from 'components/Footers/TransparentFooter.js';
 import CheckoutNavbar from 'components/Navbars/CheckoutNavbar.js';
-import DarkFooter from "components/Footers/DarkFooter.js";
 function CartPage(props) {
   const [modalLive, setModalLive] = React.useState(false);  
   const [modalType, setModalType] = React.useState(-1);
@@ -185,7 +174,6 @@ function CartPage(props) {
       
       <ExamplesNavbar items={items} onSearch={searchProduct} isHomePage={false}/>
       <div className="wrapper">
-      {/* <HomePageHeader/> */}
         <div className="section">
         <Alert color="warning" isOpen={alertLive} style={{
                   position:"fixed",
@@ -213,21 +201,10 @@ function CartPage(props) {
           </div>
         </Alert>
         <div>
-            {/* <Link
-              className="btn-neutral btn btn-info btn-sm pull-left" 
-              style={{display:"contents"}}
-              to="/index">
-                <i class="now-ui-icons arrows-1_minimal-left"></i>
-              Quay về trang chủ
-            </Link> */}
-        
-        
+                  
         </div>
           
             <Container>
-            
-                    
-                    
             {
             totalPrice > 0 ? 
               
@@ -246,7 +223,7 @@ function CartPage(props) {
                  <Table responsive >
                 <thead>
                   <tr>
-                    <th style={{textAlign: "center"}} colspan="2">Sản Phẩm</th>
+                    <th style={{textAlign: "center"}} colSpan="2">Sản Phẩm</th>
                     <th style={{textAlign: "center"}}>Kích cỡ</th>
                     <th style={{textAlign: "center"}}>Topping</th>
                     <th style={{textAlign: "center"}}>Số lượng</th>
@@ -257,7 +234,7 @@ function CartPage(props) {
                 <tbody>
                   {
                     items.map((item, index) => (
-                      <tr>
+                      <tr key={`item_row_${index}`}>
                         <td style={{textAlign: "center"}}>
                           <img
                             alt="..."
@@ -304,7 +281,7 @@ function CartPage(props) {
                           {
                             item.topping ? 
                             item.topping.map((topping, tindex) => (
-                              <Row>
+                              <Row key={`topping_${tindex}`}>
                                 <Label check>
                                 <Input 
                                   defaultValue="" 
@@ -381,23 +358,24 @@ function CartPage(props) {
                         <td style={{textAlign: "center"}}>
                           
                           {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.totalPrice)}
+                          <div style={{margin:"auto"}}>
                           <button 
-                          type="button" 
-                          data-placement="right" 
-                          id="tooltip11104356" 
-                          class="btn btn-neutral"
-                          id={`delete_${index}`} 
-                            onClick={e => {
-                              e.preventDefault();
-                              setCurrentItemIndex(index);
-                              setModalLive(true);
-                              setModalType(0);
-                              setRemovedItem(item.productDetail.name);
+                            type="button" 
+                            data-placement="right" 
+                            className="btn btn-neutral"
+                            id={`delete_${index}`} 
+                              onClick={e => {
+                                e.preventDefault();
+                                setCurrentItemIndex(index);
+                                setModalLive(true);
+                                setModalType(0);
+                                setRemovedItem(item.productDetail.name);
                             }}
                           
                           >
-                            <i class="now-ui-icons ui-1_simple-remove" style={{fontSize:"1.3em"}}></i>
+                            <i className="now-ui-icons ui-1_simple-remove" style={{fontSize:"1.3em"}}></i>
                           </button>
+                          </div>
                           <UncontrolledTooltip placement="right" target={`delete_${index}`} delay={0}>
                               Xóa khỏi giỏ hàng
                           </UncontrolledTooltip>
@@ -406,7 +384,7 @@ function CartPage(props) {
                     ))
                   }                  
                   <tr>
-                    <td colspan="2">
+                    <td colSpan="2">
                     <Link
                       className="btn btn-round btn-secondary pull-left btn-lg" 
                       to="/"
@@ -417,13 +395,13 @@ function CartPage(props) {
                     <td></td>
                     <td style={{textAlign: "center", paddingTop:"20px", fontSize:"1.5em"}}>Tổng Tiền:</td>
                     <td style={{textAlign: "center", paddingTop:"20px", fontSize:"1.5em"}}>
-                      {/* {totalPrice}Đ */}
+                      
                       <p className="price-info">
                       {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice)}
                       </p>
                     </td>
                     
-                    <td colspan="2">
+                    <td colSpan="2">
                       <Link
                         className="btn btn-round btn-info pull-right btn-lg" 
                         to="/delivery">

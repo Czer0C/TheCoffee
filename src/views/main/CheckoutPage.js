@@ -3,11 +3,6 @@ import {Link} from 'react-router-dom'
 // reactstrap components
 import {
   Button,
-  NavItem,
-  NavLink,
-  Nav,
-  TabContent,
-  TabPane,
   Container,
   Row,
   Col,
@@ -19,20 +14,15 @@ import {
   FormGroup,
   Label,
   Input,
-  CardText,
   Modal,
   ModalBody,
-  Form,
   UncontrolledTooltip,
-  ModalHeader,
 } from "reactstrap";
 
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
-import ProfilePageHeader from "components/Headers/ProfilePageHeader.js";
 import DefaultFooter from "components/Footers/DefaultFooter.js";
 import CheckoutNavbar from 'components/Navbars/CheckoutNavbar.js';
-import { getSourceMapRange } from "typescript";
 import './CheckoutPage.css';
 function CheckoutPage() {
   const [pills, setPills] = React.useState("2");
@@ -85,9 +75,7 @@ function CheckoutPage() {
                  <CardTitle>
                   <CheckoutNavbar cartSize={items.length}/>
                   <CardHeader style={{paddingTop:"35px"}}>
-                    {/* <center><h3>
-                    Xác nhận các thông tin
-                  </h3></center> */}
+                    
                   </CardHeader>
                
                  </CardTitle>
@@ -100,7 +88,7 @@ function CheckoutPage() {
                    <Table responsive style={{fontSize:"1.3em"}}>
                       <thead>
                         <tr>
-                          <th style={{textAlign: "center"}} colspan="2">Sản Phẩm</th>                          
+                          <th style={{textAlign: "center"}} colSpan="2">Sản Phẩm</th>                          
                           <th style={{textAlign: "center"}}>Số lượng</th>
                           <th style={{textAlign: "center"}}>Giá</th>
                           <th style={{textAlign: "center"}}>Chi tiết</th>
@@ -109,7 +97,7 @@ function CheckoutPage() {
                       <tbody>
                         {
                           items.map((item, index) => (
-                            <tr>
+                            <tr key={`confirm_item_${index}`}>
                               <td style={{textAlign: "center"}}>
                               <img
                                 alt="..."
@@ -122,45 +110,15 @@ function CheckoutPage() {
                               <td style={{textAlign: "center", paddingTop:"32px"}}>
                               {item.productDetail.name}
                               </td>
-                              {/* <td style={{textAlign: "center", paddingTop:"32px"}}>
-                                {item.size}
-                              </td> */}
-                              {/* <td style={{ paddingLeft: "50px"}}>
-                                <FormGroup check>
-                                {
-                                  item.topping ? 
-                                  item.topping.map((topping, tindex) => (
-                                    <Row>
-                                      <Label check>
-                                      <Input 
-                                        defaultValue="" 
-                                        type="checkbox" 
-                                        checked={topping.picked}
-                                        disabled
-                                      />
-                                      {topping.value} + {topping.price.toLocaleString()}
-                                      <span className="form-check-sign">
-                                        <span className="check"></span>
-                                      </span>
-                                    </Label>
-                                    </Row>
-                                  )) : 
-                                  null
-                                }
-                                </FormGroup>  
-                              </td> */}
                               <td style={{textAlign: "center", paddingTop:"32px"}}>
                                 {item.quantity}
                               </td>
-                              {/* <td style={{textAlign: "center", paddingTop:"32px"}}>
-                                {item.note}
-                              </td> */}
                               <td style={{textAlign: "center", paddingTop:"32px"}}>
                               {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}
                               </td>
                               <td style={{textAlign: "center", paddingTop:"32px", fontSize: "1.5em"}}>
                                 <i 
-                                  class="fas fa-info-circle checkoutInfo" 
+                                  className="fas fa-info-circle checkoutInfo" 
                                   id={`info_${index}`}
                                   onClick={e => {
                                     setCurrentItem(item);
@@ -182,7 +140,7 @@ function CheckoutPage() {
                       <center><h3>Thông tin giao hàng</h3></center>
                       </CardTitle>
 
-                      <div style={{fontWeight:500, fontSize:"1.3em"}}>
+                      <div style={{fontWeight:500, fontSize:"1.3em", paddingLeft:"70px"}}>
                       <Row>
                         <Col md="3" className="text-left">
                           Họ Tên: {deliveryInfo.name}
@@ -190,7 +148,7 @@ function CheckoutPage() {
                         <Col md="4" className="text-left">
                           Số Điện Thoại: {deliveryInfo.phone}
                         </Col>
-                      </Row>
+                      </Row>        
                       <br></br>
                       <Row>
                         
@@ -347,8 +305,8 @@ function CheckoutPage() {
                 <h4 style={{margin: "auto", paddingBottom:"30px"}}>{currentItem.name}</h4>
               </Row>
               <Row >  
-                    <Col md="3" className="text-right">
-                      <p style={{fontWeight:"500"}}>Kích cỡ:</p>
+                    <Col md="3" className="text-left">
+                      <p style={{fontWeight:"500"}}>Kích cỡ</p>
                     </Col>   
                     <Col md="3" className="text-left">
                         <p style={{fontWeight:"500"}}>{currentItem.size}</p>                      
@@ -361,48 +319,33 @@ function CheckoutPage() {
                     null : 
                     <Row style={{ marginTop:"10px",marginBottom:"15px"}}>
             
-                <Col md="3" className="text-right"><p style={{fontWeight:"500", marginTop:"10px"}}>Thêm:</p></Col>
-                <Col md="9">
-                <FormGroup check style={{paddingLeft:"13px"}}>
+                <Col md="3" className="text-left"><p style={{fontWeight:"500"}}>Thêm</p></Col>
+                <Col md="9" className="text-left">
                 {
                        
                        currentItem.topping.map((topping, index) => (
-                        <Row>
-                          <Label check>
-                          <Input 
-                            defaultValue="" 
-                            type="checkbox" 
-                            checked={topping.picked}
-                            disabled
-                          />
+                        <p style={{fontWeight:"500"}} key={`current_topping_${index}`}>
                           {topping.value} + {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(topping.price)}
-                          <span className="form-check-sign">
-                            <span className="check"></span>
-                          </span>
-                        </Label>
-                        </Row>
+                        </p>
                        )) 
                      }
-                </FormGroup>
                 </Col>
               </Row>
               }
               <Row >
               
-              <Col md="3" className="text-right">
-                <p style={{fontWeight:"500"}}>Số lượng:</p>              
+              <Col md="3" className="text-left">
+                <p style={{fontWeight:"500"}}>Số lượng</p>              
               </Col>
               <Col md="3" className="text-left">
-              <p>
-            <p style={{fontWeight:"500"}}>{currentItem.quantity}</p>     
-                </p>
+              <p style={{fontWeight:"500"}}>{currentItem.quantity}</p>  
               </Col>
               </Row>
 
 
               <Row >              
-                <Col md="3" className="text-right">
-                  <p style={{fontWeight:"500"}}>Ghi chú:</p>              
+                <Col md="3" className="text-left">
+                  <p style={{fontWeight:"500"}}>Ghi chú</p>              
                 </Col>
                 <Col md="3" className="text-left">
                   <p style={{fontWeight:"500"}}>{currentItem.note}</p>
@@ -410,19 +353,21 @@ function CheckoutPage() {
               </Row>
 
               <Row>
-              <Col md="3" className="text-right">
-                <p style={{fontWeight:"500"}}>Tổng tiền:</p>              
+              <Col md="3" className="text-left">
+                <p style={{fontWeight:"500", marginTop:"5px",marginBottom:"-20px"}}>Tổng tiền</p>              
               </Col>
               <Col md="3" className="text-left">
-                  <p className="price-info">
+                  <span className="price-info">
                   {
                     Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(currentItem.price)
               
                   }
-                  </p>
+                  </span>
 
                  
                 </Col>
+
+                
               </Row>
               
             </Col>

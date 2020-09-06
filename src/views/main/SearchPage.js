@@ -1,10 +1,9 @@
-import React, { useState, useEffect, Component } from 'react';
-import {Link} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+
 // reactstrap components
 import {
   Button,
   NavItem,
-  NavLink,
   Nav,
   Input,
   TabContent,
@@ -16,27 +15,18 @@ import {
   CardBody,
   CardTitle,
   CardText,
-  CardDeck,
   Modal,
   Pagination,
   PaginationItem,
   PaginationLink,
   UncontrolledTooltip,
-  Form,
-  FormGroup,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  Alert,
-  CardColumns
+  Alert
 } from "reactstrap";
 
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
-import HomePageHeader from "components/Headers/HomePageHeader.js";
 import DefaultFooter from "components/Footers/DefaultFooter.js";
-import ProductNavbar from 'components/Navbars/ProductNavbar';
-
+import './HomePage.css';
 
 function SearchPage(props) {
   const [pills, setPills] = useState(-1);
@@ -58,24 +48,13 @@ function SearchPage(props) {
   const [totalPrice, setTotalPrice] = useState(0);
   const [note, setNote] = useState("");
   const [items, setItems] = React.useState(JSON.parse(localStorage.getItem("items")));
-  const [newItem, setNewItem] = useState("");
-  const setColMD = () => {
+  
+  const [addedItem, setAddedItem] = React.useState("");
+  const [alertLive, setAlertLive] = React.useState(false);
 
-  }
   const searchProduct = (dataFromSearchBar) => {
     setCurrentList(products.filter(p => p.name.includes(dataFromSearchBar)));
   }
-  function utf8_from_str(s) {
-    for(var i=0, enc = encodeURIComponent(s), a = []; i < enc.length;) {
-        if(enc[i] === '%') {
-            a.push(parseInt(enc.substr(i+1, 2), 16))
-            i += 3
-        } else {
-            a.push(enc.charCodeAt(i++))
-        }
-    }
-    return a
-}
   useEffect(() => {
     document.body.classList.add("profile-page");
     document.body.classList.add("sidebar-collapse");
@@ -89,7 +68,7 @@ function SearchPage(props) {
     else {
       localStorage.setItem("items", JSON.stringify([]));
     }
-    
+
     fetch(categoriesAPI)
       .then(response => response.json())
       .then(json => {setCategories(json);});
@@ -99,9 +78,7 @@ function SearchPage(props) {
       .then(json => {
         setProducts(json); 
         let keyword = props.match.params.search;
-        console.log(keyword);
         setCurrentList(json.filter(p => p.name.toLowerCase().includes(keyword.toLowerCase())));
-        
       });
 
     fetch(toppingsAPI)
@@ -114,19 +91,43 @@ function SearchPage(props) {
     };
 
   }, []);
+
   return (
     <>
     <ExamplesNavbar 
       items={items} 
-      onSearch={searchProduct} 
-      isHomePage={true} 
-      newItem={newItem}
+      isHomePage={false} 
+      onSearch={searchProduct}
     />    
     
       <div className="wrapper">
-      <HomePageHeader />
-    
+      
         <div className="section">
+                <Alert color="success" isOpen={alertLive} style={{
+                  position:"fixed",
+                  top: "0px",
+                  left: "0px",
+                  width: "100%",
+                  zIndex:"9999",
+                  borderRadius:"0px",
+                }}>
+          <div className="container text-center">
+            
+                    <strong>{addedItem}</strong> đã được thêm vào giỏ hàng!
+            <button
+              type="button"
+              className="close"
+              aria-label="Close"
+              onClick={()=>{
+                setAlertLive(false);
+              }}
+            >
+              <span aria-hidden="true">
+                <i className="now-ui-icons ui-1_simple-remove"></i>
+              </span>
+            </button>
+          </div>
+        </Alert>
           {
             categories.length > 0 ? 
             <Container>
@@ -184,67 +185,46 @@ function SearchPage(props) {
             </Button>
             </NavItem>
           </Nav>
-                <div className="nav-align-center">
-                {/* <Nav className="justify-content-center col-md-12" role="tablist" tabs>
-                    {
-                      categories.map((item, index) => (                      
-                        <NavItem key={`nav_${index}`}>
-                          
-                        <NavLink
-                          href="#"
-                          className={pills === index ? "active" : ""} 
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setPills(pills === index ? -1 : index);
-                            setCurrentList(pills === index ? 
-                                           products : 
-                                           products.filter(p => p.category === (index + 1).toString())
-                                          )
-                          }}
-                        >
-                          {item.value}
-                        </NavLink>
-                      </NavItem>
-                    ))
-                  }
-                  </Nav>  */}
-                </div>
               </Col>
               <Row>
                 
               </Row>
-              <TabContent className="gallery" >
+              <TabContent className="gallery">
               <TabPane >
                 <Col className="ml-auto mr-auto text-center">
                   <Row className="collections">                              
                   {
                       currentList.length > 0 ? 
                       currentList.map((product, ind) => (                                  
-                        <Col>
-                          <Card style={{ width: "15rem" }} >
+                        <Col key={`col_product_${ind}`}>
+                          <Card style={{ width: "15.9rem" }} >
                             <img
                               alt="..."
                               className="img"
                               src={`https://raw.githubusercontent.com/tnguyen571/thecoffeebackend/master/images//${product.image}`}
                               height="240px"
                               width="320px"
+                              style={{marginBottom:"-10px"}}
                             ></img>
                             <hr></hr>
-                            <CardBody>
-                              <CardTitle tag="h4" style={{fontSize:"1.3em", textAlign:"left"}}>{product.name}</CardTitle>
+                            <CardBody style={{marginTop:"-50px"}}>
+                              <CardTitle tag="h4" style={{fontSize:"1.3em", textAlign:"left", fontWeight:"bold"}}>{product.name}</CardTitle>
                               <Row>
                                 <Col md="9">
                                   <CardText style={{marginTop: "10px", textAlign:"left"}}>
-                                    <p style={{fontWeight:"300"}}>{parseFloat(product.price).toLocaleString()}Đ</p>
+                                    <span className="price-info">
+                                      {
+                                        Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)
+                                  
+                                      }
+                                    </span>
                                   </CardText>
                                 </Col>
                                 <Col md="3"> 
-                                  <Button
+                                <a href="#" style={{color:"black"}} onClick={e=>e.preventDefault()}>
+                                <i className="fas fa-shopping-cart fa-2x" 
+                                    style={{fontSize:"2em"}}
                                     id={`top_${ind}`}
-                                    className="btn-round pull-right"
-                                    color="info"
-                                    href="#pablo"
-                                    
                                     onClick={e => {
                                       e.preventDefault(); 
                                       setModalLive(true); 
@@ -267,9 +247,8 @@ function SearchPage(props) {
                                         []
                                       )
                                     }}
-                                  >
-                                    +
-                                  </Button>
+                                ></i>
+                                </a>
                                   <UncontrolledTooltip placement="right" target={`top_${ind}`} delay={0}>
                                       Thêm vào giỏ hàng
                                   </UncontrolledTooltip>
@@ -307,16 +286,25 @@ function SearchPage(props) {
           <h3 className="modal-title" id="exampleModalLiveLabel" style={{margin: "auto  "}}>
             Đặt Mua
           </h3>     
-          <button
+          {/* <button
             aria-label="Close"
             className="close"
             type="button"
             onClick={() => {setModalLive(false); setCurrentSize("M"); setQuantity(1)}}
           >
-            <span aria-hidden={true}>X</span>
-          </button>
+            <span className="modalX" aria-hidden={true}>X</span>
+          </button> */}
+          <div className="modal-profile closeDetail">
+                    <a href="#" onClick={e=>e.preventDefault()}>
+                      <i 
+                        className="now-ui-icons ui-1_simple-remove" 
+                        onClick={e=>{setModalLive(false); setCurrentSize("M"); setQuantity(1)}}
+                        style={{fontSize: "2em"}}
+                      />
+                    </a>
+                  </div>
         </div>
-        <div className="modal-body"> 
+        <div className="modal-body" style={{marginTop:"-30px"}}> 
         <hr></hr>    
           <Row>
             <Col md="4">
@@ -361,7 +349,7 @@ function SearchPage(props) {
                               setTotalPrice((currentPrice + sizePrice) * quantity)
                             }}
                           >
-                            L + 5000
+                            L + {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(5000)}
                           </Button> 
                   
                     </Col> 
@@ -372,23 +360,14 @@ function SearchPage(props) {
                     currentToppings.length === 0 ? 
                     null : 
                     <Row style={{margin: "auto"}}>
-              {/* <div className="nav-align-center">
-                  <Nav
-                    className="nav-pills-info nav-pills"
-                    pills
-                    role="tablist"
-                  >
-                    
-                    
-                    
-                  </Nav> 
-                </div>  */}
+              
                 <Col md="3" style={{margin: "auto",padding: "8px"}}><p style={{fontWeight:"500"}}>Thêm</p></Col>
                 <Col md="9">
                 {
                        
                        currentToppings.map((topping, index) => (
                         <Button
+                        key={`current_topping_${index}`}
                         className={`btn-round ${topping.picked === true ? "btn-info" : "btn-outline-info"}`}
                         onClick={(e) => {
                           e.preventDefault();
@@ -400,7 +379,7 @@ function SearchPage(props) {
                           setTotalPrice((currentPrice + toppingValue) * quantity);
                         }}
                       >
-                        {topping.value} + {topping.price.toLocaleString()}k
+                        {topping.value} + {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(topping.price)}
                       </Button>
                        )) 
                      }
@@ -470,17 +449,24 @@ function SearchPage(props) {
                     value={note}
                     onChange={e => {setNote(e.target.value)}}
                     placeholder="Ít đường, đá" 
-                    type="text"
+                    type="textarea"
                   />
                 </Col>
               </Row>
 
               <Row style={{margin: "auto"}}>
               <Col md="3" style={{margin: "auto",padding: "8px"}}>
-                <p style={{fontWeight:"500"}}>Tổng tiền</p>              
+                <p style={{fontWeight:"500", margin:"auto"}}>Tổng tiền</p>              
               </Col>
               <Col md="9" style={{margin: "auto",padding: "8px"}}>
-                          <p style={{fontWeight:"500"}}>{totalPrice.toLocaleString()} VNĐ</p>
+                  <span className="price-info">
+                  {
+                    Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice)
+              
+                  }
+                  </span>
+
+                 
                 </Col>
               </Row>
               
@@ -489,14 +475,7 @@ function SearchPage(props) {
            
           <hr></hr>  
          <div className="text-center">
-         <Button
-            className="btn-round btn-lg"
-            color="secondary"
-            type="button"
-            onClick={() => {setModalLive(false); setCurrentSize("M"); setQuantity(1)}}
-          >
-            Hủy
-          </Button>
+         
          <Button
             className="btn-round btn-lg"
             color="info"
@@ -516,8 +495,9 @@ function SearchPage(props) {
               }
               let temp = [...JSON.parse(localStorage.getItem("items")), currentItem];
               localStorage.setItem("items", JSON.stringify(temp));
-              setNewItem(currentProduct.name);
+              setAddedItem(currentProduct.name);
               setItems(temp);
+              setAlertLive(true);
             }}
           >
             Đặt Mua
