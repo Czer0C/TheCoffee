@@ -50,7 +50,7 @@ function CheckoutPage() {
   }
 
   React.useEffect(() => {
-    console.log(phone);
+
     document.body.classList.add("profile-page");
     document.body.classList.add("sidebar-collapse");
     document.documentElement.classList.remove("nav-open");
