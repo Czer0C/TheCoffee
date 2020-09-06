@@ -137,7 +137,7 @@ function DeliveryPage(props) {
                 style={{marginTop:"65px", paddingTop:"30px" ,marginBottom:"63px", paddingBottom:"40px"}}
                >
                  <CardTitle>
-                 <CheckoutNavbar deliveryDone={deliveryInfo.name ? true : false}  cartSize={items.length}/>
+                 <CheckoutNavbar deliveryDone={deliveryInfo.name && deliveryInfo.phone && deliveryInfo.address ? true : false}  cartSize={items.length}/>
                 <CardHeader style={{paddingTop:"35px"}}>
                 <center><h3>
                  Thông tin cá nhân
@@ -218,7 +218,8 @@ function DeliveryPage(props) {
                     </div>
                </FormGroup>
                
-               <FormGroup className="col-md-2">
+               <div className="form-row">
+               <FormGroup>
                  <label htmlFor="district">Quận</label>
                  <Dropdown isOpen={dropdownOpen} toggle={toggle} >
                   <DropdownToggle 
@@ -243,7 +244,7 @@ function DeliveryPage(props) {
                   </DropdownMenu>
                 </Dropdown>
                </FormGroup>
-               <FormGroup className="col-md-2">
+               <FormGroup>
                  <label htmlFor="district">Thành Phố</label>
                  <Dropdown disabled isOpen={dropdownOpen2} toggle={toggle2}>
                   <DropdownToggle 
@@ -256,6 +257,7 @@ function DeliveryPage(props) {
                   </DropdownToggle>
                 </Dropdown>
                </FormGroup>
+               </div>
                </div>
                <FormGroup>
                  <label htmlFor="note">Ghi Chú</label>
