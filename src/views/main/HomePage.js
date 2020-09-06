@@ -276,7 +276,19 @@ function HomePage(props) {
            
         {
           currentProduct.image ? 
-          <Modal className="modal-lg" backdrop="static" toggle={() => setModalLive(false)} isOpen={modalLive}>
+          <Modal 
+          className="modal-lg" 
+          backdrop="static" 
+          toggle={() => {
+            setModalLive(false)
+            
+            setCurrentSize("M"); 
+            setQuantity(1); 
+            setNote("");
+          }} 
+          isOpen={modalLive}
+          
+          >
         <div className="modal-header">
           <h3 className="modal-title" id="exampleModalLiveLabel" style={{margin: "auto  "}}>
             Đặt Mua

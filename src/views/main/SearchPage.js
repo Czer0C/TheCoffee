@@ -281,7 +281,18 @@ function SearchPage(props) {
            
         {
           currentProduct.image ? 
-          <Modal className="modal-lg" backdrop="static" toggle={() => setModalLive(false)} isOpen={modalLive}>
+          <Modal 
+            onEscapeKeyDown={()=>alert('test')} 
+            className="modal-lg" 
+            backdrop="static" 
+            toggle={() => {
+              setModalLive(false);
+              setCurrentSize("M"); 
+              setQuantity(1); 
+              setNote("");
+            }} 
+            isOpen={modalLive}
+          >
         <div className="modal-header">
           <h3 className="modal-title" id="exampleModalLiveLabel" style={{margin: "auto  "}}>
             Đặt Mua
@@ -291,7 +302,13 @@ function SearchPage(props) {
                     <a href="#" onClick={e=>e.preventDefault()}>
                       <i 
                         className="now-ui-icons ui-1_simple-remove" 
-                        onClick={e=>{setModalLive(false); setCurrentSize("M"); setQuantity(1); setNote("")} }
+                        onClick={e=>{
+                          setModalLive(false);
+                          setCurrentSize("M"); 
+                        setQuantity(1); 
+                        setNote("");  
+                        
+                        }}
                         style={{fontSize: "2em"}}
                       />
                     </a>
@@ -476,7 +493,7 @@ function SearchPage(props) {
             onClick={() => {
               setModalLive(false); 
               setCurrentSize("M"); 
-              setQuantity(1);
+              setQuantity(1); 
               setNote("");
               let currentItem = {
                 productDetail: currentProduct,
