@@ -85,7 +85,7 @@ function CheckoutPage() {
                      <><CardTitle>
                      <center><h3>Thông tin đơn hàng</h3></center>
                      </CardTitle>
-                   <Table responsive style={{fontSize:"1.3em"}}>
+                   <Table responsive style={{fontSize:"1.3em", marginBottom:"5px"}}>
                       <thead>
                         <tr>
                           <th style={{textAlign: "center"}} colSpan="2">Sản Phẩm</th>                          
@@ -128,13 +128,16 @@ function CheckoutPage() {
                                 <UncontrolledTooltip placement="bottom" target={`info_${index}`} delay={0}>
                                       Xem chi tiết của sản phẩm này
                                   </UncontrolledTooltip>
+
                               </td>
+                              
                             </tr>
                           ))
                         }
                       </tbody>
                       
                     </Table>
+                    
                     <hr></hr>
                       <CardTitle>
                       <center><h3>Thông tin giao hàng</h3></center>
