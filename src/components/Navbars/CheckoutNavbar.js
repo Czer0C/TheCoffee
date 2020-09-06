@@ -9,6 +9,8 @@ import './CheckoutNavbar.css';
 
 function CheckoutNavbar(props) {
   const currentTab = window.location.pathname;
+  const deliveryInfo = localStorage.getItem("deliveryInfo");
+  
   return (
     <>
     <Nav className="justify-content-center text-center" role="tablist" tabs>
@@ -30,17 +32,21 @@ function CheckoutNavbar(props) {
                 Thông tin giao hàng
               </Link>
             </NavItem>
-            <NavItem className="col-md-4">
+            {
+              deliveryInfo ? 
+              <NavItem className="col-md-4">
               <Link
                 className={
-                  `nav-link ${props.cartSize === 0 ? "disabled" : props.deliveryDone === false ? "disabled" : ""} 
+                  `nav-link ${props.cartSize === 0 ? "disabled" : ""} 
                   ${currentTab === "/checkout" ? "active" : ""}`}
                 to="/checkout"
               >
                 <i className="now-ui-icons ui-1_check"></i>
                 Xác nhận và thanh toán
               </Link>
-            </NavItem>
+            </NavItem> :
+            null
+            }
           </Nav>
     </>
   )
