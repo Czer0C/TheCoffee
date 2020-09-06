@@ -286,7 +286,7 @@ function HomePage(props) {
                     <a href="#" onClick={e=>e.preventDefault()}>
                       <i 
                         className="now-ui-icons ui-1_simple-remove" 
-                        onClick={e=>{setModalLive(false); setCurrentSize("M"); setQuantity(1)}}
+                        onClick={e=>{setModalLive(false); setCurrentSize("M"); setQuantity(1);setNote("")} }
                         style={{fontSize: "2em"}}
                       />
                     </a>
@@ -482,6 +482,7 @@ function HomePage(props) {
               setModalLive(false); 
               setCurrentSize("M"); 
               setQuantity(1);
+              setNote("");
               let currentItem = {
                 productDetail: currentProduct,
                 size: currentSize,

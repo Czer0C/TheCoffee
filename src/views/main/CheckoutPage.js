@@ -108,7 +108,7 @@ function CheckoutPage() {
                               
                               </td>
                               <td style={{textAlign: "center", paddingTop:"32px"}}>
-                              {item.productDetail.name}
+                                {item.productDetail.name}
                               </td>
                               <td style={{textAlign: "center", paddingTop:"32px"}}>
                                 {item.quantity}
