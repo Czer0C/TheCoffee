@@ -218,8 +218,7 @@ function DeliveryPage(props) {
                     </div>
                </FormGroup>
                
-               <div className="form-row">
-               <FormGroup>
+               <FormGroup className="col-md-2 text-center">
                  <label htmlFor="district">Quận</label>
                  <Dropdown isOpen={dropdownOpen} toggle={toggle} >
                   <DropdownToggle 
@@ -244,7 +243,7 @@ function DeliveryPage(props) {
                   </DropdownMenu>
                 </Dropdown>
                </FormGroup>
-               <FormGroup>
+               <FormGroup className="col-md-2">
                  <label htmlFor="district">Thành Phố</label>
                  <Dropdown disabled isOpen={dropdownOpen2} toggle={toggle2}>
                   <DropdownToggle 
@@ -252,12 +251,12 @@ function DeliveryPage(props) {
                     size="sm"
                     color="success"
                     style={{marginTop: "5px"}}
+                    disabled  
                   >
                     HCM
                   </DropdownToggle>
                 </Dropdown>
                </FormGroup>
-               </div>
                </div>
                <FormGroup>
                  <label htmlFor="note">Ghi Chú</label>
