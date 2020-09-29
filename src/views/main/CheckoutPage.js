@@ -242,7 +242,7 @@ function CheckoutPage() {
                   className="btn btn-round btn-secondary pull-left btn-lg" 
                   to="/delivery"
                 >
-                        Quay về
+                        Quay Về
                       </Link>
                       <Button
                     className="btn-round btn-lg pull-right"
@@ -250,7 +250,7 @@ function CheckoutPage() {
                     type="button"
                     onClick={() => {setModalLive(true)}}
                   >
-                    Xác nhận
+                    Thanh Toán
                   </Button>
                 </div></> : 
                  <div style={{textAlign:"center", paddingTop:"150px", paddingBottom:"150px"}}>
@@ -315,7 +315,7 @@ function CheckoutPage() {
                       <i 
                         className="now-ui-icons ui-1_simple-remove" 
                         onClick={e=>setModalLive2(false)}
-                        style={{fontSize: "2em"}}
+                        style={{fontSize: "2em", marginTop:"5px"}}
                       />
                     </a>
                   </div>
@@ -428,53 +428,56 @@ function CheckoutPage() {
               Đóng
             </Button>
                 </ModalBody>
-                <div className="modal-footer">
-                  <Button 
-                    className="btn-neutral" 
-                    color="link" 
-                    type="button"
-                    onClick={() => setModalLive2(false)}
-                  >
-                    Hủy
-                  </Button>
-                </div>
+                
               </Modal>
                
-               <Modal
-                modalClassName="modal-mini modal-success"
-                toggle={() => setModalLive(false)}
-                isOpen={modalLive}
-              >
-                <div className="modal-header justify-content-center">
-                  <div className="modal-profile">
-                    <i className="now-ui-icons ui-1_simple-remove"></i>
+              <Modal 
+        toggle={() => setModalLive(false)} 
+        isOpen={modalLive}>
+
+          <h3 className="modal-header text-center" id="exampleModalLiveLabel" style={{marginBottom:"-15px"}} >
+            Xác nhận
+          </h3>     
+          
+          <div className="modal-profile closeDetail">
+                    <a href="#" onClick={e=>e.preventDefault()}>
+                      <i 
+                        className="now-ui-icons ui-1_simple-remove" 
+                        onClick={e=>{setModalLive(false); } }
+                        style={{fontSize: "2em", marginTop:"40px", marginRight:"8px"}}
+                      />
+                    </a>
                   </div>
-                </div>
-                <ModalBody style={{textAlign: "center"}}>
-                  Xác nhận đặt hàng?
-                </ModalBody>
-                <div className="modal-footer">
-                  <Button 
-                    className="btn-neutral" 
-                    color="link" 
-                    type="button"
-                    onClick={() => setModalLive(false)}
-                  >
-                    Hủy
-                  </Button>
-                  <Button
-                    className="btn-neutral"
-                    color="link"
-                    type="button"
-                    onClick={() => {
-                      setModalLive(false);
-                      confirmModal();
-                    }}
-                  >
-                    Xác nhận
-                  </Button>
-                </div>
-              </Modal>
+        
+        <div className="modal-body text-center" >
+          
+        <hr></hr>
+            <p style={{fontWeight:"500"}}>
+              Xác nhận đặt hàng?
+              </p>
+        <hr></hr>
+        <div style={{marginTop:"-10px"}}>
+        <Button
+            color="secondary"
+            type="button"
+            className="pull-right"
+            onClick={() => setModalLive(false)}
+          >
+            Huỷ
+          </Button>
+          <Button
+            color="success"
+            type="button"
+            className=" pull-right"
+            onClick={() => {setModalLive(false)
+              confirmModal();}}
+          >
+            Đặt hàng
+          </Button>
+        </div>
+        </div>
+        
+      </Modal>
           </Container>
         </div>
         <DefaultFooter />

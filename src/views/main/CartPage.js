@@ -427,16 +427,66 @@ function CartPage(props) {
                   </Link>
                 </div>
               }
+        <Modal 
+        toggle={() => setModalLive(false)} 
+        isOpen={modalLive}>
 
-              <Modal
-                modalClassName="modal-mini modal-info"
+          <h3 className="modal-header text-center" id="exampleModalLiveLabel" style={{marginBottom:"-15px"}} >
+            Xác nhận
+          </h3>     
+          
+          <div className="modal-profile closeDetail">
+                    <a href="#" onClick={e=>e.preventDefault()}>
+                      <i 
+                        className="now-ui-icons ui-1_simple-remove" 
+                        onClick={e=>{setModalLive(false); } }
+                        style={{fontSize: "2em", marginTop:"40px", marginRight:"8px"}}
+                      />
+                    </a>
+                  </div>
+        
+        <div className="modal-body text-center" >
+          
+        <hr></hr>
+            <p style={{fontWeight:"500"}}>
+              {items[currentItemIndex] ?`Xác nhận xóa sản phẩm ${items[currentItemIndex].productDetail.name} khỏi giỏ hàng?`:""}
+              </p>
+            
+        <hr></hr>
+        <div style={{marginTop:"-10px"}}>
+        <Button
+            color="secondary"
+            type="button"
+            className="pull-right"
+            onClick={() => setModalLive(false)}
+          >
+            Huỷ
+          </Button>
+          <Button
+            color="primary"
+            type="button"
+            className=" pull-right"
+            onClick={() => {setModalLive(false)
+              confirmModal();}}
+          >
+            Xoá
+          </Button>
+        </div>
+        </div>
+        
+      </Modal>
+              {/* <Modal
                 toggle={() => setModalLive(false)}
                 isOpen={modalLive}
               >
                 <div className="modal-header justify-content-center">
-                  <div className="modal-profile">
-                    <i className="now-ui-icons ui-1_simple-remove"></i>
-                  </div>
+                <a href="#" onClick={e=>e.preventDefault()}>
+                      <i 
+                        className="now-ui-icons ui-1_simple-remove" 
+                        onClick={e=>{setModalLive(false); } }
+                        style={{fontSize: "2em"}}
+                      />
+                    </a>
                 </div>
                 <ModalBody style={{textAlign: "center"}}>
                   {
@@ -467,7 +517,7 @@ function CartPage(props) {
                     Xác nhận
                   </Button>
                 </div>
-              </Modal>
+              </Modal> */}
             
                             
               

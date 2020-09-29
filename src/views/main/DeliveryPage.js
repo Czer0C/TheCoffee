@@ -316,12 +316,12 @@ function DeliveryPage(props) {
                 }}
                 >
 
-              Thanh Toán
+              Tiếp Theo
               </Link>
                <Link
                 className="btn btn-round btn-lg btn-secondary pull-left" 
                 to="/cart">
-                Quay Lại
+                Quay Về
               </Link>
               </Form>
               
