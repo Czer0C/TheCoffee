@@ -20,8 +20,8 @@ import {
   Dropdown,
 } from "reactstrap";
 
-import ExamplesNavbar from '../../components/Navbars/ExamplesNavbar.js';
-import DefaultFooter from "components/Footers/DefaultFooter.js";
+import ExamplesNavbar from 'evolution/components/CustomNavbar';
+import DefaultFooter from "evolution/components/DefaultFooter.js";
 import CheckoutNavbar from "components/Navbars/CheckoutNavbar.js";
 
 function DeliveryPage(props) {
@@ -337,7 +337,7 @@ function DeliveryPage(props) {
                >
                  <div className="modal-header justify-content-center">
                    <div className="modal-profile">
-                     <i className="now-ui-icons ui-1_simple-remove"></i>
+                     <i className="a-close fa fa-times"></i>
                    </div>
                  </div>
                  <ModalBody style={{textAlign: "center"}}>

@@ -26,8 +26,8 @@ import {
   CardBody,
 } from "reactstrap";
 
-import ExamplesNavbar from '../../components/Navbars/ExamplesNavbar.js';
-import DefaultFooter from "components/Footers/DefaultFooter.js";
+import CustomNavbar from 'evolution/components/CustomNavbar';
+import DefaultFooter from "evolution/components/DefaultFooter.js";
 import CheckoutNavbar from 'components/Navbars/CheckoutNavbar.js';
 function CartPage(props) {
   const [modalLive, setModalLive] = React.useState(false);  
@@ -172,9 +172,9 @@ function CartPage(props) {
   return (    
     <>
       
-      <ExamplesNavbar items={items} onSearch={searchProduct} isHomePage={false}/>
+      <CustomNavbar items={items} onSearch={searchProduct} isHomePage={false}/>
       <div className="wrapper">
-        <div className="section promotion-page">
+        <div className="section">
         <Alert color="warning" isOpen={alertLive} style={{
                   position:"fixed",
                   top: "0px",
@@ -195,7 +195,7 @@ function CartPage(props) {
               }}
             >
               <span aria-hidden="true">
-                <i className="now-ui-icons ui-1_simple-remove"></i>
+                <i className="a-close fa fa-times"></i>
               </span>
             </button>
           </div>
@@ -204,7 +204,7 @@ function CartPage(props) {
                   
         </div>
           
-            <Container>
+            <Container className="promotion-page">
             {
             totalPrice > 0 ? 
               
@@ -362,10 +362,10 @@ function CartPage(props) {
                           <div style={{marginTop:"15px"}}>
 
                           {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.totalPrice)}
-                          
+
                           <a href="#" onClick={e=>e.preventDefault()}>
                             <i 
-                              className="now-ui-icons ui-1_simple-remove" 
+                              className="a-delete fa fa-times"
                               style={{paddingLeft:"3px"}}
                               id={`delete_${index}`} 
                               onClick={e => {
@@ -438,7 +438,7 @@ function CartPage(props) {
           <div className="modal-profile closeDetail">
                     <a href="#" onClick={e=>e.preventDefault()}>
                       <i 
-                        className="now-ui-icons ui-1_simple-remove" 
+                        className="a-close fa fa-times"
                         onClick={e=>{setModalLive(false); } }
                         style={{fontSize: "2em", marginTop:"40px", marginRight:"8px"}}
                       />
@@ -463,7 +463,7 @@ function CartPage(props) {
             Huỷ
           </Button>
           <Button
-            color="primary"
+            color="warning"
             type="button"
             className=" pull-right"
             onClick={() => {setModalLive(false)
@@ -482,7 +482,7 @@ function CartPage(props) {
                 <div className="modal-header justify-content-center">
                 <a href="#" onClick={e=>e.preventDefault()}>
                       <i 
-                        className="now-ui-icons ui-1_simple-remove" 
+                        className="fa fa-times" 
                         onClick={e=>{setModalLive(false); } }
                         style={{fontSize: "2em"}}
                       />

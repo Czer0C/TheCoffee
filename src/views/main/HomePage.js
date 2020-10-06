@@ -120,7 +120,7 @@ function HomePage(props) {
               }}
             >
               <span aria-hidden="true">
-                <i className="now-ui-icons ui-1_simple-remove"></i>
+                <i className="fa fa-times"></i>
               </span>
             </button>
           </div>
@@ -298,8 +298,8 @@ function HomePage(props) {
           
           <div className="modal-profile closeDetail">
                     <a href="#" onClick={e=>e.preventDefault()}>
-                      <i 
-                        className="now-ui-icons ui-1_simple-remove" 
+                      <i
+                        className="now-ui-icons ui-1_simple-remove"
                         onClick={e=>{setModalLive(false); setCurrentSize("M"); setQuantity(1);setNote("")} }
                         style={{fontSize: "2em"}}
                       />
@@ -362,17 +362,7 @@ function HomePage(props) {
                     currentToppings.length === 0 ? 
                     null : 
                     <Row style={{margin: "auto"}}>
-              {/* <div className="nav-align-center">
-                  <Nav
-                    className="nav-pills-info nav-pills"
-                    pills
-                    role="tablist"
-                  >
-                    
-                    
-                    
-                  </Nav> 
-                </div>  */}
+
                 <Col md="3" style={{margin: "auto",padding: "8px"}}><p style={{fontWeight:"500"}}>Thêm</p></Col>
                 <Col md="9">
                 {
@@ -428,7 +418,6 @@ function HomePage(props) {
                     
                 
                   <PaginationLink
-                    style={{backgroundColor: "rgba(222, 222, 222, 0.3)"}}
                     href="#pablo"
                     onClick={(e) => e.preventDefault()}
                   >

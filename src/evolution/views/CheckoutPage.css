@@ -1,0 +1,20 @@
+.checkoutInfo:hover {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+.checkoutInfo {
+    font-size: 1.5em;
+    color: #4bb5ff;
+    margin-top: -6px;
+}
+
+.closeDetail {
+    position: absolute;
+    right: 0px;
+    padding-right: 10px;
+    margin-top: -10px;
+}
+
+.deliveryDetail {
+    font-weight:600;
+}
