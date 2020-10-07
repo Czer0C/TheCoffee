@@ -379,7 +379,7 @@ function DeliveryPage(props) {
                }
              
              </Container> :             
-            <div className="content">
+            <div className="content margin-auto">
               <CardBody>                   
                 <img
                   alt="..."

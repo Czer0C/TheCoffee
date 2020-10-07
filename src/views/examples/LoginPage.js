@@ -198,7 +198,7 @@ function LoginPage() {
                 }
               
               </Container> :             
-             <div className="content">
+             <div className="content mirgr">
                <CardBody>                   
                  <img
                    alt="..."

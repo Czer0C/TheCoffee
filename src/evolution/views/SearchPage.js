@@ -125,10 +125,10 @@ function SearchPage(props) {
                                 }}
                             >
                               <span aria-hidden="true">
-                                <i className="now-ui-icons ui-1_simple-remove"></i>
+                                <i className="a-close fa fa-times"></i>
                               </span>
                             </button>
-                        </div>đơn
+                        </div>
                     </Alert>
                   {
                     categories.length > 0 ?
@@ -141,7 +141,28 @@ function SearchPage(props) {
                                   currentList.length > 0 ?
                                       currentList.map((product, ind) => (
                                           <div className="col-6 col-md-4 col-lg-6 col-xl-4">
-                                            <a className="item btn-buy">
+                                            <a className="item btn-buy" onClick={e => {
+                                                e.preventDefault();
+                                                setModalLive(true);
+                                                setCurrentProduct(product);
+
+                                                setCurrentPrice(parseInt(product.price));
+                                                setTotalPrice(parseInt(product.price));
+                                                setCurrentToppings(
+                                                    product.toppings ?
+                                                        toppings.filter(t => product.toppings.includes(t.id)).map(
+                                                            pt => {
+                                                                let ct = {}
+                                                                ct.id = pt.id;
+                                                                ct.value = pt.value;
+                                                                ct.price = pt.price;
+                                                                ct.picked = false;
+                                                                return ct;
+                                                            }
+                                                        ) :
+                                                        []
+                                                )
+                                            }}>
                                               <figure>
                                                 <div className="box-img">
                                                   <img src={`https://raw.githubusercontent.com/tnguyen571/thecoffeebackend/master/images//${product.image}`} alt=""/>
@@ -198,254 +219,169 @@ function SearchPage(props) {
                 {
                     currentProduct.image ?
                         <Modal
-                            onEscapeKeyDown={() => alert('test')}
-                            className="modal-lg"
+                            className="modal-lg "
                             backdrop="static"
                             toggle={() => {
-                                setModalLive(false);
+                                setModalLive(false)
+
                                 setCurrentSize("M");
                                 setQuantity(1);
                                 setNote("");
                             }}
                             isOpen={modalLive}
+
                         >
-                            <div className="modal-header">
-                                <h3 className="modal-title" id="exampleModalLiveLabel" style={{margin: "auto  "}}>
-                                    Đặt Mua
-                                </h3>
-
-                                <div className="modal-profile closeDetail">
-                                    <a href="#" onClick={e => e.preventDefault()}>
-                                        <i
-                                            className="now-ui-icons ui-1_simple-remove"
-                                            onClick={e => {
-                                                setModalLive(false);
-                                                setCurrentSize("M");
-                                                setQuantity(1);
-                                                setNote("");
-
-                                            }}
-                                            style={{fontSize: "2em"}}
-                                        />
-                                    </a>
-                                </div>
-                            </div>
-                            <div className="modal-body" style={{marginTop: "-30px"}}>
-                                <hr></hr>
-                                <Row>
-                                    <Col md="4">
-                                        <img
-                                            alt="..."
-                                            className="img"
-                                            src={`https://raw.githubusercontent.com/tnguyen571/thecoffeebackend/master/images/${currentProduct.image}`}
-                                            height="240px"
-                                            width="240px"
-                                            style={{margin: "auto", marginTop: "30px"}}
-                                        />
-                                    </Col>
-
-                                    <Col md="8">
-                                        <Row>
-                                            <h4 style={{
-                                                margin: "auto",
-                                                paddingBottom: "30px"
-                                            }}>{currentProduct.name}</h4>
-                                        </Row>
-                                        <Row style={{margin: "auto"}}>
-                                            <Col md="3" style={{margin: "auto", padding: "8px"}}>
-                                                <p style={{fontWeight: "500"}}>Kích cỡ</p>
-                                            </Col>
-                                            <Col md="9">
-                                                <Button
-                                                    className={`btn-round ${currentSize === "M" ? "btn-info" : "btn-outline-info"}`}
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        setCurrentSize("M");
-                                                        let sizePrice = currentSize === "M" ? 0 : -5000
-                                                        setCurrentPrice(currentPrice + sizePrice);
-                                                        setTotalPrice((currentPrice + sizePrice) * quantity)
-                                                    }}
-                                                >
-                                                    M
-                                                </Button>
-                                                <Button
-                                                    className={`btn-round ${currentSize === "L" ? "btn-info" : "btn-outline-info"}`}
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        setCurrentSize("L");
-                                                        let sizePrice = currentSize === "L" ? 0 : 5000
-                                                        setCurrentPrice(currentPrice + sizePrice);
-                                                        setTotalPrice((currentPrice + sizePrice) * quantity)
-                                                    }}
-                                                >
-                                                    L + {Intl.NumberFormat('vi-VN', {
-                                                    style: 'currency',
-                                                    currency: 'VND'
-                                                }).format(5000)}
-                                                </Button>
-
-                                            </Col>
-                                        </Row>
+                            <section className="product-select idk">
+                                <button className="remodal-close" onClick={e=>{setModalLive(false); setCurrentSize("M"); setQuantity(1);setNote("")} }></button>
+                                <div className="content popup-body">
+                                    <div className="product-detail-wrapper">
+                                        <h4>{currentProduct.name}</h4>
+                                        <img src={`https://raw.githubusercontent.com/tnguyen571/thecoffeebackend/master/images/${currentProduct.image}`} alt=""></img>
+                                        <p className="price product-price">
+                                            {
+                                                Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice)
+                                            }
+                                        </p>
+                                    </div>
+                                    <div className="option-list popup-option">
+                                        <div className="product-option sizeopt" name="product_attribute_829_1">
+                                            <h6>Chọn cỡ</h6>
+                                            <Button
+                                                className={`btn-round ${currentSize === "M" ? "btn-info" : "btn-outline-info"}`}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    setCurrentSize("M");
+                                                    let sizePrice = currentSize === "M" ? 0 : -5000
+                                                    setCurrentPrice(currentPrice + sizePrice);
+                                                    setTotalPrice((currentPrice + sizePrice) * quantity)
+                                                }}
+                                            >
+                                                M
+                                            </Button>
+                                            <Button
+                                                className={`btn-round ${currentSize === "L" ? "btn-info" : "btn-outline-info"}`}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    setCurrentSize("L");
+                                                    let sizePrice = currentSize === "L" ? 0 : 5000
+                                                    setCurrentPrice(currentPrice + sizePrice);
+                                                    setTotalPrice((currentPrice + sizePrice) * quantity)
+                                                }}
+                                            >
+                                                L + {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(5000)}
+                                            </Button>
+                                        </div>
 
                                         {
 
                                             currentToppings.length === 0 ?
                                                 null :
-                                                <Row style={{margin: "auto"}}>
-
-                                                    <Col md="3" style={{margin: "auto", padding: "8px"}}><p
-                                                        style={{fontWeight: "500"}}>Thêm</p></Col>
-                                                    <Col md="9">
-                                                        {
-
-                                                            currentToppings.map((topping, index) => (
-                                                                <Button
-                                                                    key={`current_topping_${index}`}
-                                                                    className={`btn-round ${topping.picked === true ? "btn-info" : "btn-outline-info"}`}
-                                                                    onClick={(e) => {
-                                                                        e.preventDefault();
-                                                                        let temp = currentToppings;
-                                                                        temp[index].picked = !temp[index].picked;
-                                                                        setCurrentToppings(temp);
-                                                                        let toppingValue = (topping.picked ? 1 : -1) * topping.price;
-                                                                        setCurrentPrice(currentPrice + toppingValue);
-                                                                        setTotalPrice((currentPrice + toppingValue) * quantity);
-                                                                    }}
-                                                                >
-                                                                    {topping.value} + {Intl.NumberFormat('vi-VN', {
-                                                                    style: 'currency',
-                                                                    currency: 'VND'
-                                                                }).format(topping.price)}
-                                                                </Button>
-                                                            ))
-                                                        }
-                                                    </Col>
-                                                </Row>
-
-
+                                                <div className="product-option sideopt" name="product_attribute_829_3">
+                                                    <h6>Tùy chọn thêm</h6>
+                                                    {
+                                                        currentToppings.map((topping, index) => (
+                                                            <Button
+                                                                key={`current_topping_${index}`}
+                                                                className={`btn-round ${topping.picked === true ? "btn-info" : "btn-outline-info"}`}
+                                                                onClick={(e) => {
+                                                                    e.preventDefault();
+                                                                    let temp = currentToppings;
+                                                                    temp[index].picked = !temp[index].picked;
+                                                                    setCurrentToppings(temp);
+                                                                    let toppingValue = (topping.picked ? 1 : -1) * topping.price;
+                                                                    setCurrentPrice(currentPrice + toppingValue);
+                                                                    setTotalPrice((currentPrice + toppingValue) * quantity);
+                                                                }}
+                                                            >
+                                                                {topping.value} + {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(topping.price)}
+                                                            </Button>
+                                                        ))
+                                                    }
+                                                </div>
                                         }
 
-
-                                        <Row style={{margin: "auto"}}>
-
-                                            <Col md="3" style={{margin: "auto", padding: "8px"}}>
-                                                <p style={{fontWeight: "500"}}>Số lượng</p>
-                                            </Col>
-                                            <Col md="9" style={{margin: "auto", padding: "8px"}}>
-                                                <Pagination
-                                                    className="pagination pagination-info"
-                                                    listClassName="pagination-info"
-                                                >
-                                                    <PaginationItem className={quantity > 1 ? "active" : "disabled"}>
-                                                        <PaginationLink
-                                                            href="#pablo"
-                                                            onClick={(e) => {
-                                                                e.preventDefault();
-                                                                setQuantity(quantity - 1);
-                                                                setTotalPrice(currentPrice * (quantity - 1))
-                                                            }}
-                                                        >
-                                                            -
-                                                        </PaginationLink>
-                                                    </PaginationItem>
-                                                    <PaginationItem>
+                                        <div className="product-option toppingopt" name="product_attribute_829_4">
+                                            <h6>Số lượng</h6>
+                                            <Pagination
+                                                className="pagination pagination-info"
+                                                listClassName="pagination-info"
+                                            >
+                                                <PaginationItem className={quantity > 1 ? "active" : "disabled"}>
+                                                    <PaginationLink
+                                                        href="#pablo"
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            setQuantity(quantity - 1);
+                                                            setTotalPrice(currentPrice * (quantity - 1))
+                                                        }}
+                                                    >
+                                                        -
+                                                    </PaginationLink>
+                                                </PaginationItem>
+                                                <PaginationItem>
 
 
-                                                        <PaginationLink
-                                                            style={{backgroundColor: "rgba(222, 222, 222, 0.3)"}}
-                                                            href="#pablo"
-                                                            onClick={(e) => e.preventDefault()}
-                                                        >
-                                                            {quantity}
-                                                        </PaginationLink>
-                                                    </PaginationItem>
-                                                    <PaginationItem className="active">
-                                                        <PaginationLink
-                                                            href="#pablo"
-                                                            onClick={(e) => {
-                                                                e.preventDefault();
-                                                                setQuantity(quantity + 1);
-                                                                setTotalPrice(currentPrice * (quantity + 1))
-                                                            }}
-                                                        >
-                                                            +
-                                                        </PaginationLink>
-                                                    </PaginationItem>
-                                                </Pagination>
-                                            </Col>
-                                        </Row>
+                                                    <PaginationLink
+                                                        href="#pablo"
+                                                        onClick={(e) => e.preventDefault()}
+                                                    >
+                                                        {quantity}
+                                                    </PaginationLink>
+                                                </PaginationItem>
+                                                <PaginationItem className="active">
+                                                    <PaginationLink
+                                                        href="#pablo"
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            setQuantity(quantity + 1);
+                                                            setTotalPrice(currentPrice * (quantity + 1))
+                                                        }}
+                                                    >
+                                                        +
+                                                    </PaginationLink>
+                                                </PaginationItem>
+                                            </Pagination>
+                                        </div>
+
+                                        <div className="product-option extraopt" name="product_attribute_829_5">
+                                            <h6>Tùy chọn thêm</h6>
+                                            <Input
+                                                value={note}
+                                                onChange={e => {setNote(e.target.value)}}
+                                                placeholder="Ít đường, đá"
+                                                type="textarea"
+                                            />
+                                        </div>
 
 
-                                        <Row style={{margin: "auto"}}>
-                                            <Col md="3" style={{margin: "auto", padding: "8px"}}>
-                                                <p style={{fontWeight: "500"}}>Ghi chú</p>
-                                            </Col>
-                                            <Col md="9" style={{margin: "auto", padding: "8px"}}>
-                                                <Input
-                                                    value={note}
-                                                    onChange={e => {
-                                                        setNote(e.target.value)
-                                                    }}
-                                                    placeholder="Ít đường, đá"
-                                                    type="textarea"
-                                                />
-                                            </Col>
-                                        </Row>
-
-                                        <Row style={{margin: "auto"}}>
-                                            <Col md="3" style={{margin: "auto", padding: "8px"}}>
-                                                <p style={{fontWeight: "500", margin: "auto"}}>Tổng tiền</p>
-                                            </Col>
-                                            <Col md="9" style={{margin: "auto", padding: "8px"}}>
-                  <span className="price-info">
-                  {
-                      Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(totalPrice)
-
-                  }
-                  </span>
-
-
-                                            </Col>
-                                        </Row>
-
-                                    </Col>
-                                </Row>
-
-                                <hr></hr>
-                                <div className="text-center">
-
-                                    <Button
-                                        className="btn-round btn-lg"
-                                        color="info"
-                                        type="button"
-                                        onClick={() => {
-                                            setModalLive(false);
-                                            setCurrentSize("M");
-                                            setQuantity(1);
-                                            setNote("");
-                                            let currentItem = {
-                                                productDetail: currentProduct,
-                                                size: currentSize,
-                                                topping: currentToppings,
-                                                price: currentPrice,
-                                                quantity: quantity,
-                                                note: note,
-                                                totalPrice: totalPrice
-                                            }
-                                            let temp = [...JSON.parse(localStorage.getItem("items")), currentItem];
-                                            localStorage.setItem("items", JSON.stringify(temp));
-                                            setAddedItem(currentProduct.name);
-                                            setItems(temp);
-                                            setAlertLive(true);
-                                        }}
-                                    >
-                                        Đặt Mua
-                                    </Button>
-
+                                        <div className="buy-normal">
+                                            <a href="#!" className="btn btn-continue addcart"
+                                               onClick={() => {
+                                                   setModalLive(false);
+                                                   setCurrentSize("M");
+                                                   setQuantity(1);
+                                                   setNote("");
+                                                   let currentItem = {
+                                                       productDetail: currentProduct,
+                                                       size: currentSize,
+                                                       topping: currentToppings,
+                                                       price: currentPrice,
+                                                       quantity: quantity,
+                                                       note: note,
+                                                       totalPrice: totalPrice
+                                                   }
+                                                   let temp = [...JSON.parse(localStorage.getItem("items")), currentItem];
+                                                   localStorage.setItem("items", JSON.stringify(temp));
+                                                   setAddedItem(currentProduct.name);
+                                                   setItems(temp);
+                                                   setAlertLive(true);
+                                               }}>
+                                                Đặt hàng
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="modal-footer">
-                            </div>
+                            </section>
                         </Modal> :
                         null
                 }

@@ -189,7 +189,28 @@ function HomePage(props) {
                                       currentList.length > 0 ?
                                           currentList.map((product, ind) => (
                                               <div className="col-6 col-md-4 col-lg-6 col-xl-4">
-                                                <a className="item btn-buy">
+                                                <a className="item btn-buy" onClick={e => {
+                                                  e.preventDefault();
+                                                  setModalLive(true);
+                                                  setCurrentProduct(product);
+
+                                                  setCurrentPrice(parseInt(product.price));
+                                                  setTotalPrice(parseInt(product.price));
+                                                  setCurrentToppings(
+                                                      product.toppings ?
+                                                          toppings.filter(t => product.toppings.includes(t.id)).map(
+                                                              pt => {
+                                                                let ct = {}
+                                                                ct.id = pt.id;
+                                                                ct.value = pt.value;
+                                                                ct.price = pt.price;
+                                                                ct.picked = false;
+                                                                return ct;
+                                                              }
+                                                          ) :
+                                                          []
+                                                  )
+                                                }}>
                                                   <figure>
                                                     <div className="box-img">
                                                       <img src={`https://raw.githubusercontent.com/tnguyen571/thecoffeebackend/master/images//${product.image}`} alt=""/>
